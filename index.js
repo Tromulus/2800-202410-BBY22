@@ -119,11 +119,11 @@ app.get('/logout', (req,res) => {
     res.redirect("/");
 });
 
+app.use(express.static(__dirname + "/public"));
+
 app.get('*', (req, res) => {
     res.render('404');
 })
-
-app.use(express.static(__dirname + '/public'));
 
 app.listen(port, () => {
     console.log(`server started listening on port ${port}`);

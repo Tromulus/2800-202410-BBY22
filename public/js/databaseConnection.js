@@ -1,3 +1,4 @@
+//mongodb+srv://thomassmith:<password>@seraphai.rcqcx3y.mongodb.net/
 require('dotenv').config();
 const session = require('express-session');
 const mongoose = require('mongoose');
