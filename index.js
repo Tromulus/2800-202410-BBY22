@@ -15,6 +15,8 @@ const database = connection.database;
 const store = connection.store;
 app.use(express.urlencoded({extended: false})); 
 
+app.use(express.static(__dirname + '/public'));
+
 app.set('view engine', 'ejs');
 
 app.use(session({
@@ -30,7 +32,6 @@ app.use(session({
 app.get('/', (req, res) => {
     if (req.session.authenticated) {
         var username = req.session.username;
-        console.log("here");
         res.render("index", {username: username});
     } else {
         res.render('landing');
@@ -67,9 +68,7 @@ app.post('/submitUser', async (req, res) => {
         res.redirect('/');
         return;
     } else {
-        res.send(`Incorrect Login
-        <a href='/login'>Try again</a>
-        `);
+        res.render("invalidLogin");
         return;
     }
 });
@@ -124,8 +123,6 @@ app.get('*', (req, res) => {
     res.status(404);
     res.render('404');
 })
-
-app.use(express.static(__dirname + '/public'));
 
 app.listen(port, () => {
     console.log(`server started listening on port ${port}`);
