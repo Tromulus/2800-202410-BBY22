@@ -10,14 +10,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 const node_session_secret = process.env.NODE_SESSION_SECRET;
 
-const {database} = include('databaseConnection');
+const connection = include('databaseConnection');
+const database = connection.database;
+const store = connection.store;
 app.use(express.urlencoded({extended: false})); 
 
 app.set('view engine', 'ejs');
 
 app.use(session({
     secret: node_session_secret,
-    store: database.store,
+    store: store,
     saveUninitialized: false,
     resave: true,
     cookie: {
