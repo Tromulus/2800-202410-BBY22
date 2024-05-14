@@ -10,14 +10,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 const node_session_secret = process.env.NODE_SESSION_SECRET;
 
-const {database} = include('databaseConnection');
+const connection = include('databaseConnection');
+const database = connection.database;
+const store = connection.store;
 app.use(express.urlencoded({extended: false})); 
 
 app.set('view engine', 'ejs');
 
 app.use(session({
     secret: node_session_secret,
-    store: database.store,
+    store: store,
     saveUninitialized: false,
     resave: true,
     cookie: {
@@ -28,9 +30,8 @@ app.use(session({
 app.get('/', (req, res) => {
     if (req.session.authenticated) {
         var username = req.session.username;
-        res.send(`<h2>Hello, ${username}.</h2>
-        <a href='/members'><button>Members</button></a>
-        <a href='/logout'><button>Logout</button></a>`);
+        console.log("here");
+        res.render("index", {username: username});
     } else {
         res.render('landing');
     }
@@ -119,11 +120,12 @@ app.get('/logout', (req,res) => {
     res.redirect("/");
 });
 
-app.use(express.static(__dirname + "/public"));
-
 app.get('*', (req, res) => {
+    res.status(404);
     res.render('404');
 })
+
+app.use(express.static(__dirname + '/public'));
 
 app.listen(port, () => {
     console.log(`server started listening on port ${port}`);
