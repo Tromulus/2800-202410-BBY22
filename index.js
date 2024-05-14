@@ -5,6 +5,11 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const User = require('./models/user.js');
+const crypto = require("crypto");
+
+//token
+const Token = require("./models/token.js");
+////////
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -118,6 +123,26 @@ app.get('/logout', (req,res) => {
     req.session.destroy();
     res.redirect("/");
 });
+
+//Generate a random token using crypto API
+const passwordReset = async(email) => {
+    const user = await User.findONe({email});
+    if (!user) {
+        throw new Error("User does not exist");
+    }
+    let token = await Token.findOne({email:email});
+    if (token) {
+        await token.deleteOne();
+    }
+    let resetToken = crypto.randomBytes(32).toString("hex");
+    const hashToken = await bcrypt.hash(resetToken, 12);
+    await new Token({
+        email:email,
+        token: hashToken,
+        createdAt: Date.now(),
+    }).save();
+};
+////////
 
 app.get('*', (req, res) => {
     res.render('404');
