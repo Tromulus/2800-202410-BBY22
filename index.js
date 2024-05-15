@@ -5,6 +5,7 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const User = require('./models/user.js');
+const Robot = require('./models/robot.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
