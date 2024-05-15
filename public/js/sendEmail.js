@@ -25,6 +25,7 @@ const sendEmail = async (email, subject, payload, template) => {
       }
 
       const mailOptions = {
+        // need an email here
         from: process.env.FROM_EMAIL,
         to: email,
         subject: subject,
