@@ -27,7 +27,51 @@ const passwordReset = async(email) => {
 
 
   const link = `${url}/passwordReset?token=${resetToken}&id=${user._id}`;
-  sendEmail(user.email,"Password Reset Request",{name: user.username,link: link,},"");
-  return link;
+  sendEmail(user.email,"Password Reset Request",{name: user.username,link: link,},"resetPasswordEmail.ejs");
+  return {link};
 };
+
+const resetPassword = async (userId, token, password) => {
+    let passwordResetToken = await Token.findOne({ userId });
+  
+    if (!passwordResetToken) {
+      throw new Error("Invalid or expired password reset token");
+    }
+  
+    console.log(passwordResetToken.token, token);
+  
+    const isValid = await bcrypt.compare(token, passwordResetToken.token);
+  
+    if (!isValid) {
+      throw new Error("Invalid or expired password reset token");
+    }
+  
+    const hash = await bcrypt.hash(password, 12);
+  
+    await User.updateOne(
+      { _id: userId },
+      { $set: { password: hash } },
+      { new: true }
+    );
+  
+    const user = await User.findById({ _id: userId });
+  
+    sendEmail(
+      user.email,
+      "Password Reset Successfully",
+      {
+        name: user.username,
+      },
+      "resetSucceed.ejs"
+    );
+  
+    await passwordResetToken.deleteOne();
+  
+    return { message: "Password reset was successful" };
+  };
+  
+  module.exports = {
+    passwordReset,
+    resetPassword,
+  };
 ////////
