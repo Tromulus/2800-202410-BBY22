@@ -8,10 +8,7 @@ const User = require('./models/user.js');
 const crypto = require("crypto");
 
 
-////////
-const resetPasswordRoutes = require('./routes/resetPassword');
-app.use(resetPasswordRoutes);
-///////
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +19,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.set('view engine', 'ejs');
 
+
 app.use(session({
     secret: node_session_secret,
     store: database.store,
@@ -31,6 +29,11 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+////////
+const resetPasswordRoutes = require('./routes/resetPassword');
+app.use(resetPasswordRoutes);
+///////
 
 app.get('/', (req, res) => {
     if (req.session.authenticated) {

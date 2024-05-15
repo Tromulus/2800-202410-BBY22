@@ -1,6 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const resetPassword = require('../routes/resetPassword'); 
+const { resetPassword, passwordReset } = require('../public/js/resetPassword'); 
+// this is for testing.
+router.get('/loginin', (req, res) => {
+  res.render('testGenerateToken'); 
+});
+
+router.post('/submit-forgot-password', async (req, res) => {
+  const email = req.body.email;
+  try {
+      await passwordReset(email);
+      res.send("If an account with that email was found, we have sent a link to reset your password.");
+  } catch (error) {
+      console.log(error);
+      res.status(500).send("Failed to send password reset email.");
+  }
+});
+
+
 
 // Display reset password form
 router.get('/password-reset', async (req, res) => {
