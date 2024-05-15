@@ -8,6 +8,11 @@ const User = require('./models/user.js');
 const crypto = require("crypto");
 
 
+////////
+const resetPasswordRoutes = require('./routes/resetPassword');
+app.use(resetPasswordRoutes);
+///////
+
 const app = express();
 const port = process.env.PORT || 3000;
 const node_session_secret = process.env.NODE_SESSION_SECRET;
@@ -120,7 +125,6 @@ app.get('/logout', (req,res) => {
     req.session.destroy();
     res.redirect("/");
 });
-
 
 
 app.get('*', (req, res) => {
