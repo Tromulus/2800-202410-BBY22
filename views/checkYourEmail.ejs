@@ -1,4 +1,12 @@
 <%- include('templates/header') %>
-<p>We sent you an email with the link to reset the password. Go check it out.</p>
-<a href="/"><button>Back to Home</button></a>
+<div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4" src="../img/favicon.ico" alt="" width="72" height="57">
+    <h1 class="display-5 fw-bold text-body-emphasis">Email Sent!</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">We sent you an email with the link to reset the password. Go check it out.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/"><button type="button" class="btn btn-outline-secondary btn-lg px-4" fdprocessedid="g6wks">Back to Home</button></a>
+      </div>
+    </div>
+  </div>
 <%- include('templates/footer') %>
