@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { mongoose } = require("../public/js/databaseConnection");
 const Schema = mongoose.Schema;
 const tokenSchema = new Schema({
   userId: {

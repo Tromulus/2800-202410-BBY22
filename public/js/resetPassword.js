@@ -32,6 +32,7 @@ const passwordReset = async (email) => {
   }).save();
 
   const link = `localhost:3000/passwordReset?token=${resetToken}&id=${user._id}`;
+  console.log(link);
   sendEmail(
     user.email,
     "Password Reset Request",
@@ -43,7 +44,7 @@ const passwordReset = async (email) => {
 };
 
 const resetPassword = async (userId, token, password) => {
-  let passwordResetToken = await Token.findOne({ userId });
+  let passwordResetToken = await Token.findOne({userId}).exec();
 
   if (!passwordResetToken) {
     throw new Error("Invalid or expired password reset token");
@@ -73,17 +74,19 @@ const resetPassword = async (userId, token, password) => {
     "reset-password",
     {
       name: user.username,
+      user,
     },
     "resetSucceed.ejs"
   );
 
   await passwordResetToken.deleteOne();
 
-  return { message: "Password reset was successful" };
+  return { user };
 };
 
 module.exports = {
   passwordReset,
   resetPassword,
+  User
 };
 ////////
