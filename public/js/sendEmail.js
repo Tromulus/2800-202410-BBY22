@@ -100,7 +100,7 @@ const sendEmailviaSMTP = async (email, subject, type, payload, template) => {
 
       const mailOptions = {
         // need an email here
-        from: '"Zhi Li" <lizhi.2496@gmail.com>',
+        from: '"seraphai" <seraphai.service@gmail.com>',
         to: email,
         subject: subject,
         html: html,
