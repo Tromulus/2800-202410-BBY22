@@ -1,0 +1,48 @@
+/* Resetting default browser styles */
+
+
+/* <uniquifier>: Use a unique and descriptive class name
+   <font-weight>: Use a value from 100 to 900 
+   <font-style>: normal or italic */
+* {
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+}
+
+/* Navbar styles */
+nav {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-size: 50px;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 40px;
+    font-size: 40px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Hover effect on links */
+.nav-links li a:hover {
+    color: #ccc;
+}
+
+#test {
+    font-size: 80px;
+}

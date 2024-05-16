@@ -1,24 +1,20 @@
 require('./public/js/utils.js');
 require('dotenv').config();
+require("express-async-errors");
+
 const express = require('express');
 const session = require('express-session');
-const bcrypt = require('bcrypt');
-const Joi = require('joi');
-const User = require('./models/user.js');
-const crypto = require("crypto");
-
-
-
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
 const node_session_secret = process.env.NODE_SESSION_SECRET;
 
 const {database} = include('databaseConnection');
+
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({extended: false})); 
-
-app.set('view engine', 'ejs');
-
 
 app.use(session({
     secret: node_session_secret,
@@ -30,112 +26,27 @@ app.use(session({
     }
 }));
 
-////////
-const resetPasswordRoutes = require('./routes/resetPassword');
-app.use(resetPasswordRoutes);
-///////
+app.set('view engine', 'ejs');
+
+// ------ Use modular routes ------
+app.use(require('./routes/authRoutes'));
+app.use(require('./routes/resetRoutes'));
+// --------------------------------
 
 app.get('/', (req, res) => {
-    if (req.session.authenticated) {
-        var username = req.session.username;
-        res.send(`<h2>Hello, ${username}.</h2>
-        <a href='/members'><button>Members</button></a>
-        <a href='/logout'><button>Logout</button></a>`);
-    } else {
-        res.render('landing');
-    }
+    res.render('landing', {username: req.session.username});
 }); 
 
-app.get('/login', (req, res) => {
-    res.render('login');
+app.use((error, req, res, next) => {
+    res.status(500).json({ error: error.message });
 });
 
-app.post('/submitUser', async (req, res) => {
-    var username = req.body.username;
-    var password = req.body.password;
-
-    const schema = Joi.string().max(20).required();
-    const validationResult = schema.validate(username);
-    if (validationResult.error != null) {
-        console.log(validationResult.error);
-        res.redirect('/login');
-    }
-
-    const user = await User.findOne({username: username});
-
-    if (!user) {
-        console.log("User not found.");
-        res.redirect('/login');
-        return;
-    }
-
-    if (await bcrypt.compare(password, user.password)) {
-        console.log("correct password");
-        req.session.authenticated = true;
-        req.session.username = username;
-        res.redirect('/');
-        return;
-    } else {
-        res.send(`Incorrect Login
-        <a href='/login'>Try again</a>
-        `);
-        return;
-    }
-});
-
-app.get("/signup", (req, res) => {
-    res.render('signup');
-});
-
-app.post('/createUser', async (req, res) => {
-    var username = req.body.username;
-    var email = req.body.email;
-    var password = req.body.password;
-
-    const schema = Joi.object({
-        username: Joi.string().alphanum().max(20).required(),
-        email: Joi.string().email(),
-        password: Joi.string().max(20).required()
-    });
-
-    const validationResult = schema.validate({username, email, password});
-    if (validationResult.error != null) {
-        console.log(validationResult.error);
-        res.redirect('/signup');
-    }
-
-    var hashedPassword = await bcrypt.hash(password, 12);
-    
-    try {
-        var newUser = new User({
-            username: username,
-            email: email,
-            password: hashedPassword
-        });
-        await newUser.save();
-    } catch (e) {
-        console.error(e);
-        res.status(500).send('Internal server error');
-    }
-    console.log("Inserted User");
-
-    res.send(`Created User</br>
-    <a href='/login'><button>Login</button></a>
-    `);
-});
-
-app.get('/logout', (req,res) => {
-    req.session.destroy();
-    res.redirect("/");
-});
-
+app.use(express.static(__dirname + '/public'));
 
 app.get('*', (req, res) => {
     res.render('404');
 })
 
-app.use(express.static(__dirname + '/public'));
-
 app.listen(port, () => {
     console.log(`server started listening on port ${port}`);
-})
+});
