@@ -1,0 +1,25 @@
+<%- include("templates/header") %>
+    <h2>Sign Up</h2>
+    <p>Please fill in the information below to create an account.</p>
+    <form action="/createUser" method="POST">
+        <!--USERNAME-->
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" placeholder="username" required><br><br>
+        <!--EMAIL-->
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="email" required><br><br>
+        <!--PASSWORD-->
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" placeholder="password" required><br><br>
+        <!--ADDRESS-->
+        <fieldset>
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" name="address" placeholder="address" required><br>
+            <input type="text" id="city" name="city" placeholder="city" required><br>
+            <input type="text" id="province" name="province" placeholder="province/state" required><br>
+            <input type="text" id="postal" name="postal" placeholder="postal/zip code" required><br>
+        </fieldset>
+        <br>
+        <input type="submit" value="Sign up">
+    </form>
+<%- include('templates/footer') %>

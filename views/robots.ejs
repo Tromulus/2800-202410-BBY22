@@ -1,0 +1,51 @@
+<%- include("templates/header") %>
+
+<%- include('templates/companycard.ejs', {
+    id: 'boston', 
+    imageSrc: 'img/banners/Boston Dynamics Banner.png',
+    companyName: 'Boston Dynamics',
+    description: 'The introduction of Boston Dynamics\' first Atlas in 2013 marked a significant milestone in robotics, with subsequent iterations showcasing advancements in technology and design.',
+    link: '/robot_details/atlas'
+}); %>
+
+<%- include('templates/companycard.ejs', {
+    id: 'hahne', 
+    imageSrc: 'img/banners/Hahne Kedar Banner.png',
+    companyName: 'Hahne-Kedar',
+    description: 'Hahne-Kedar\'s Tempest excels in challenging environments, reflecting the company\'s dedication to rugged and reliable robotics since its establishment in 2030.',
+    link: '/robot_details/tempest'
+}); %>
+
+<%- include('templates/companycard.ejs', {
+    id: 'irobot',
+    imageSrc: 'img/banners/iRobot Banner.png',
+    companyName: 'iRobot',
+    description: 'iRobot\'s LifeMate exemplifies seamless robotic integration into daily life, offering a range of services from hospitality to companionship.',
+    link: '/robot_details/lifemate'
+}); %>
+
+<%- include('templates/companycard.ejs', {
+    id: 'nova',
+    imageSrc: 'img/banners/NovaGen Banner.png',
+    companyName: 'NovaGen',
+    description: 'NovaGen\'s NGX-2000 reflects reliability and security, equipped with advanced AI for diverse environments, positioning the company as a leader in advanced robotics technology.',
+    link: '/robot_details/ngx2000' 
+}); %>
+
+<%- include('templates/companycard.ejs', {
+    id: 'seraph',
+    imageSrc: 'img/banners/Seraph AI Banner.png',
+    companyName: 'Seraph AI',
+    description: 'Seraph AI\'s Aegis VII has a capacity to transcend conventional understanding marks a paradigm shift in AI robotics, harmonizing technology with human interaction.',
+    link: '/robot_details/aegisvii'
+}); %>
+
+<%- include('templates/companycard.ejs', {
+    id: 'toyota',
+    imageSrc: 'img/banners/Toyota Banner.png',
+    companyName: 'Toyota Research Institute',
+    description: 'Leveraging automotive expertise since 1937, Toyota\'s HSR-3 embodies versatility and companionship, redefining technology\'s role in society.',
+    link: '/robot_details/hsr3'
+}); %>
+
+<%- include("templates/footer") %>
