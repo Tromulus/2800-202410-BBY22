@@ -1,0 +1,10 @@
+/* Resetting default browser styles */
+
+
+/* <uniquifier>: Use a unique and descriptive class name
+   <font-weight>: Use a value from 100 to 900 
+   <font-style>: normal or italic */
+
+svg {
+    fill: currentColor;
+}

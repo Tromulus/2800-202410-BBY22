@@ -1,5 +1,4 @@
-<%- include("templates/header") %>
-    <h2>Hello, <%= username %>.</h2>
-    <a href='/members'><button>Members</button></a>
-    <a href='/logout'><button>Logout</button></a>
-<%- include("templates/footer") %>
+<%- include('templates/header') %>
+<h1>Hello, <%= username %>.</h1>
+<a href="/logout"><button>Log out</button></a>
+<%- include('templates/footer') %>
