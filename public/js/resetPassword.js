@@ -35,7 +35,7 @@ const passwordReset = async (email) => {
     createdAt: Date.now(),
   }).save();
 
-  const link = `http://localhost:3000/passwordReset?token=${resetToken}&id=${user._id}`;
+  const link = `https://two800-202410-bby22.onrender.com/passwordReset?token=${resetToken}&id=${user._id}`;
   console.log(link);
   sendEmail(
     user.email,
