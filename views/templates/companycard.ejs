@@ -1,0 +1,12 @@
+<a href="#<%= id %>" data-bs-toggle="collapse" style="text-decoration: none; color: black">
+    <div class="card" style="width: 18rem;">
+        <img src="<%= imageSrc %>" class="card-img-top" alt="<%= companyName %>">
+        <div class="card-body" style="background-color: rgb(200,200,200);">
+            <p class="card-text"><b><%= companyName %></b></p>
+            <div id="<%= id %>" class="collapse">
+                <p class="card-text"><%= description %></p>
+                <a href="<%= link %>"><button type="button" class="btn btn-info">Read more</button></a>
+            </div>
+        </div>
+    </div>
+</a>
