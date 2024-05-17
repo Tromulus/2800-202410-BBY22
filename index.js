@@ -3,7 +3,6 @@ require('dotenv').config();
 require("express-async-errors");
 
 const bcrypt = require('bcrypt');
-const User = require('./models/user.js');
 const Joi = require('joi');
 const express = require('express');
 const session = require('express-session');
