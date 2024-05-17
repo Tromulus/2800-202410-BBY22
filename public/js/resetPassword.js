@@ -76,7 +76,7 @@ const resetPassword = async (userId, token, password) => {
       name: user.username,
       user,
     },
-    "resetSucceed.ejs"
+    "resetSucceedEmail.ejs"
   );
 
   await passwordResetToken.deleteOne();
