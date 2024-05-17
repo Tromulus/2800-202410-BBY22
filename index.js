@@ -81,17 +81,26 @@ app.post('/createUser', async (req, res) => {
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
+    var address =  req.body.address;
+    var city = req.body.city;
+    var province = req.body.province;
+    var postal = req.body.postal;
 
     const schema = Joi.object({
         username: Joi.string().alphanum().max(20).required(),
         email: Joi.string().email(),
-        password: Joi.string().max(20).required()
+        password: Joi.string().max(20).required(),
+        address: Joi.string().required(),
+        city: Joi.string().max(20).required(),
+        province: Joi.string().max(20).required(),
+        postal: Joi.string().max(20).required(),
     });
 
-    const validationResult = schema.validate({username, email, password});
+    const validationResult = schema.validate({username, email, password, address, city, province, postal});
     if (validationResult.error != null) {
         console.log(validationResult.error);
         res.redirect('/signup');
+        return;
     }
 
     var hashedPassword = await bcrypt.hash(password, 12);
@@ -100,18 +109,65 @@ app.post('/createUser', async (req, res) => {
         var newUser = new User({
             username: username,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            address: address,
+            city: city,
+            province: province,
+            postal: postal,
         });
         await newUser.save();
     } catch (e) {
         console.error(e);
         res.status(500).send('Internal server error');
+        return;
     }
     console.log("Inserted User");
 
     res.send(`Created User</br>
     <a href='/login'><button>Login</button></a>
     `);
+});
+
+app.get('/profile', async (req, res) => {
+    if (req.session.authenticated) {
+        console.log("in profile");
+        const result = await User.findOne({ username: req.session.username });
+        console.log(result);
+
+        if (!result) {
+            res.send("User not found");
+            return;
+        }
+
+        res.render("profile", {user: result});
+    } else {
+        res.render("landing");
+    }
+});
+
+app.post('/update/:email', async (req, res) => {
+    var email = req.params.email;
+
+    const schema = Joi.object({
+        email: Joi.string().email(),
+    });
+
+    const validationResult = schema.validate({ email });
+    if (validationResult.error != null) {
+        console.log(validationResult.error);
+        res.redirect('/login');
+        return;
+    }
+
+    await User.updateOne({ email: email }, 
+        { $set: { 
+            address: req.body.address,
+            city: req.body.city,
+            province: req.body.province,
+            postal: req.body.postal
+        }});
+
+    res.redirect('/profile');
 });
 
 app.get('/logout', (req,res) => {
