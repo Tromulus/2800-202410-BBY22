@@ -8,3 +8,31 @@
 svg {
     fill: currentColor;
 }
+
+.dropdown-toggle {
+    padding: 8px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.menu-button {
+    width: 40px;
+    height: 40px;
+    background-color: #212529;
+    border-radius: 8px;
+}
+
+.menu-button:hover {
+    transform: scale(1.05);
+    border-color: white;
+}
+
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    filter: invert(100%) brightness(200%); /* Change black to white */
+}
