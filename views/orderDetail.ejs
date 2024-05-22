@@ -1,0 +1,15 @@
+<%- include("templates/header") %>
+<body>
+    <h1>Order Details</h1>
+    <ul>
+        <% orders.forEach(order => { %>
+            <li>
+                <p>Order Number: <%= order.orderNumber %></p>
+                <p>Address: <%= order.address %></p>
+                <p>Date: <%= order.date.toDateString() %></p>
+                <a href="/tracking/<%= order.orderNumber %>">Track Order</a>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+<%- include("templates/footer") %>
