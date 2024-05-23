@@ -42,6 +42,7 @@ app.set('view engine', 'ejs');
 // ------ Use modular routes ------
 app.use(require('./routes/authRoutes'));
 app.use(require('./routes/resetRoutes'));
+app.use(require('./routes/orderRoutes'));
 // --------------------------------
 
 app.get('/', (req, res) => {
