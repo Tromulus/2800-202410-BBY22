@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const robotSchema = new mongoose.Schema({
     manufacturer: String,
     model: String,
+    price: Number,
     serial: String,
     capabilities: [String],
     operatingTime: Number,

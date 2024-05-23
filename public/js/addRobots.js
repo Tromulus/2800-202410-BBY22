@@ -15,16 +15,18 @@ function generateSerial(length) {
 const capabilities = ['hospitality', 'errands', 'security', 'maintenance', 'strength', 'psychology', 'entertainment'];
 const statuses = ['ready', 'busy', 'charging','maintenance'];
 
-const manufacturers = ['Boston Dynamics', 'iRobot', 'Toyota', 'NovaGen', 'Seraph AI', 'Hahne-Kedar'];
-const models = ['Atlas V', 'LifeMate', 'HSR-3', 'NGX-2000', 'Aegis VII', 'Tempest']
+const manufacturers = ['Boston Dynamics', 'Hahne-Kedar', 'iRobot', 'NovaGen', 'Seraph AI', 'Toyota'];
+const models = ['Atlas V', 'Tempest', 'LifeMate', 'NGX-2000', 'Aegis VII', 'HSR-3']
 const model_capabilites = [
     ['maintenance', 'strength', 'entertainment'],
+    ['security', 'maintenance', 'strength'],
     ['hospitality', 'errands', 'psychology'],
-    ['hospitality', 'psychology', 'entertainment'],
     ['security', 'maintenance', 'errands'],
     ['hospitality', 'errands', 'security', 'strength', 'psychology', 'entertainment'],
-    ['security', 'maintenance', 'strength']
+    ['hospitality', 'psychology', 'entertainment']
 ];
+
+const model_prices = [49.99, 74.99, 19.99, 59.99, 119.99, 29.99];
 
 const warehouses = [
     [49.25149688570242,-122.91704280941264],
@@ -43,6 +45,7 @@ function generateRobot() {
     let newRobot = new Robot({
         manufacturer: manufacturers[type],
         model: models[type],
+        price: model_prices[type],
         serial: generateSerial(25),
         capabilities: model_capabilites[type],
         operatingTime: 0,

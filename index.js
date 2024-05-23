@@ -9,6 +9,7 @@ const session = require('express-session');
 const cors = require("cors");
 const User = require('./models/user.js');
 const Robot = require('./models/robot.js');
+const Cart = require('./models/cart.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -182,6 +183,18 @@ app.post('/update/:email', async (req, res) => {
         }});
 
     res.redirect('/profile');
+});
+
+app.get('/add-to-cart/:id', async (req, res) => {
+    var roboName = req.params.id;
+    var cart = new Cart(req.session.cart ? req.session.cart : {items: {}});
+
+    const robot = await Robot.findOne({model: roboName});
+
+    // Add robot to the cart
+    cart.add(robot);
+    req.session.cart = cart;
+    res.redirect('/robots');
 });
 
 app.get('/logout', (req,res) => {
