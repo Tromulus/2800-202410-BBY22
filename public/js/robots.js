@@ -23,7 +23,6 @@ const modal = () => {
         const companyName = $(this).attr('company');
         const id = $(this).attr('roboID');
 
-        console.log(id);
         $('.modal-body').html(`
     <div>
         <div class="text-center">
