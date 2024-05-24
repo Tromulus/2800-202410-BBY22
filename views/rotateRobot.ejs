@@ -17,6 +17,18 @@
           }
         }
       </script>
+      <div>
+        <audio id="music" src="/img/Surprise.mp3"></audio>
+        <button class="btn btn-danger" onclick="playAudio()">
+          Audio
+        </button>
+        <script>
+          var audio = document.getElementById("music");
+          function playAudio() {
+            audio.play();
+          }
+        </script>
+      </div>
     <script type="module" src="/js/rotateRobot.js"></script>
 </body>
 </html>
