@@ -94,6 +94,10 @@ app.get("/signup", (req, res) => {
     res.render('signup');
 });
 
+app.get("/surprise", (req, res) => {
+    res.render("rotateRobot");
+});
+
 app.get('/profile', async (req, res) => {
     if (req.session.authenticated) {
         console.log("in profile");
