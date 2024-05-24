@@ -1,0 +1,111 @@
+<!-- Using Custom Page: -->
+
+<%- include("templates/header") %>
+
+    <p>
+        4242 4242 4242 4242 = visa card.
+        <br>
+        4000 0000 0000 0341 = poor man's card
+    </p>
+
+    <form id="payment-form">
+        <div class="form-group">
+            <label for="card-name">Cardholder Name</label>
+            <input type="text" id="card-name" name="cardName" placeholder="Enter cardholder name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required>
+        </div>
+        <div class="form-group">
+            <label for="card-element">Credit or debit card</label>
+            <div id="card-element"></div>
+            <div id="card-errors" role="alert"></div>
+        </div>
+        <div class="form-group">
+            <label for="postal-code">Postal Code</label>
+            <input type="text" id="postal-code" name="postalCode" placeholder="Enter postal code" required>
+        </div>
+        <button type="submit">Submit Payment</button>
+    </form>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('pk_test_51PJMer00K9SfgrcVbWAtcleHZcyIHsnEZmyKZvWUTSYQdby0BDZAjYkfRqqUQxyJ8kAj7GkNzC02DMc54GdvMYJk00QVvA4ovV'); // Replace with your actual test publishable key
+
+        const elements = stripe.elements();
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    color: '#32325d',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            },
+            hidePostalCode: true // Hide the default postal code field provided by Stripe
+        });
+        card.mount('#card-element');
+
+        card.on('change', (event) => {
+            const displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        document.getElementById('payment-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const cardName = document.getElementById('card-name').value;
+            const email = document.getElementById('email').value;
+            const postalCode = document.getElementById('postal-code').value;
+
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+                billing_details: {
+                    name: cardName,
+                    email: email,
+                    address: {
+                        postal_code: postalCode
+                    }
+                }
+            });
+
+            if (error) {
+                const displayError = document.getElementById('card-errors');
+                displayError.textContent = error.message;
+            } else {
+                const response = await fetch('/process-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ paymentMethodId: paymentMethod.id })
+                });
+
+                // Check if the response is a redirect
+                if (response.redirected) {
+                    // Redirect the user to the URL specified by the server
+                    window.location.href = response.url;
+                } else {
+                    // Handle other types of responses
+                    // For example, if the response is HTML or text, display it to the user
+                    const text = await response.text();
+                    console.log('Response:', text);
+                }
+            }
+        });
+    </script>
+
+    <%- include("templates/footer") %>
