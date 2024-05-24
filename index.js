@@ -43,6 +43,7 @@ app.set('view engine', 'ejs');
 app.use(require('./routes/authRoutes'));
 app.use(require('./routes/resetRoutes'));
 app.use(require('./routes/orderRoutes'));
+app.use(require('./routes/checkoutRoutes.js'));
 app.use(require('./routes/paymentRoutes')); // Added by sunwoo, for payment
 // --------------------------------
 
@@ -136,18 +137,6 @@ app.post('/update/:email', async (req, res) => {
     res.redirect('/profile');
 });
 
-app.get('/add-to-cart/:id', async (req, res) => {
-    var roboName = req.params.id;
-    var cart = new Cart(req.session.cart ? req.session.cart : {items: {}});
-
-    const robot = await Robot.findOne({model: roboName});
-
-    // Add robot to the cart
-    cart.add(robot);
-    req.session.cart = cart;
-    res.redirect('/robots');
-});
-
 app.get('/logout', (req,res) => {
     req.session.destroy();
     res.redirect("/");
@@ -156,7 +145,7 @@ app.get('/logout', (req,res) => {
 app.get('*', (req, res) => {
     res.status(404);
     res.render('404');
-})
+});
 
 app.listen(port, () => {
     console.log(`server started listening on port ${port}`);
