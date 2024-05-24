@@ -1,26 +1,24 @@
-var time = 0;
-function Gravity(id){
+
+
+function Gravity(id) {
     var that = this;
     var element = document.getElementById(id);
-    var text = element.textContent;
-    var arr = text.split('');
+    var originalText = element.textContent;
+    var arr = originalText.split('');
 
-    this.animate = true;
-    this.floating = true;
+    this.clickCount = 0;  // Initialize click count
+    this.animate = false;  // Start with no animation
+    this.floating = false;  // No floating initially
     this.resetTime = 0;
 
     this.positionType = getComputedStyle(element).position;
 
-    this.lerp =function (e,t,i) {
-        return (1-i)*e+i*t;
-    }
-    this.checkBound = function() {
-        if(element.hasAttribute("data-bound")){
-            return element.dataset.bound === "true";
-        }
-    }
+    this.lerp = function (e, t, i) {
+        return (1 - i) * e + i * t;
+    };
 
-    this.useBound = this.checkBound();
+    this.useBound = element.hasAttribute("data-bound") && element.dataset.bound === "true";
+
     this.colors = [
         '#f44336','#e91e63','#9c27b0',
         '#673ab7','#3f51b5','#2196f3',
@@ -32,174 +30,86 @@ function Gravity(id){
     ];
 
     this.randomColor = function() {
-        var randNum = Math.floor(Math.random()*this.colors.length);
-        return this.colors[randNum];
-    }
+        return this.colors[Math.floor(Math.random() * this.colors.length)];
+    };
 
-    this.bounds = this.useBound ? {
-        min : {
-            x : element.offsetLeft,
-            y : element.offsetTop
-        },
-        max : {
-            x : element.offsetLeft + element.offsetWidth,
-            y : element.offsetTop + element.offsetHeight
-        }
-    } : {
-        min : {
-            x : 0,
-            y : 0
-        },
-        max : {
-            x : window.innerWidth,
-            y : window.innerHeight
-        }
-    }
-
-    this.pointInCircle = function(point, target, radius) {
-        var distsq = (point.x - target.x) * (point.x - target.x) + (point.y - target.y) * (point.y - target.y);
-        return [distsq <= radius * radius, distsq];
-    }
-
-    function createSpan(text,pos) {
+    function createSpan(text) {
         var span = document.createElement('span');
-        span.innerHTML = text;
+        span.textContent = text;
         span.style.position = "relative";
         span.style.display = "inline-block";
-        span.style.display.minWidth = "10px";
+        span.style.minWidth = "10px";
         span.style.color = that.randomColor();
         span._own = {
-            pos : {
-                x : 0,
-                y : 0
-            },
-            vel : {
-                x : -0.5 + Math.random(),
-                y : -0.5 + Math.random()
-            },
-            speed : {
-                x : 1,
-                y : 1
-            },
-            dir : {
-                x : 1,
-                y : 1
-            }
-        }
+            pos: { x: 0, y: 0 },
+            vel: { x: -0.5 + Math.random(), y: -0.5 + Math.random() },
+            speed: { x: 1, y: 1 },
+            dir: { x: 1, y: 1 }
+        };
         return span;
     }
 
     this.textSpans = [];
-    element.innerHTML = '';
     
-    arr.forEach(function(t, i) {
-        var el = createSpan(t,{
-            x : 0,
-            y : 0
+    this.setupText = function() {
+        element.innerHTML = '';
+        arr.forEach(function(char) {
+            var el = createSpan(char);
+            element.appendChild(el);
+            that.textSpans.push(el);
         });
-        element.appendChild(el);
-        that.textSpans.push(el);
-    });
-    this.getDim = function(){
+        this.getDim();
+    };
 
-        this.textSpans.forEach(function(t,i){
-            var offset = {
-                x : 0,
-                y : 0
+    this.restoreOriginalText = function() {
+        element.textContent = originalText; // Restore original text
+        this.textSpans = [];
+        this.animate = false;
+        this.floating = false;
+    };
+
+    this.toggleState = function() {
+        this.clickCount++;
+        if (this.clickCount === 1) {
+            this.floating = true;
+            this.animate = true;
+            this.setupText();
+        } else if (this.clickCount === 2) {
+            this.restoreOriginalText();
+        } else if (this.clickCount === 3) {
+            window.location.href = '/another-page'; // Redirect to another page
+        }
+    };
+
+    var icon = document.getElementById('reset');
+    icon.addEventListener('click', function() {
+        that.toggleState();
+    });
+
+    this.update = function() {
+        if (!this.animate) return;
+        this.textSpans.forEach(function(span) {
+            if (span._own.pos.x + span.offsetLeft < 0 || span._own.pos.x + span.offsetLeft > window.innerWidth) {
+                span._own.dir.x *= -1;
             }
-            if(that.positionType==='relative' || that.positionType==='absolute'){
-                offset.x = element.offsetLeft
-                offset.y = element.offsetTop
+            if (span._own.pos.y + span.offsetTop < 0 || span._own.pos.y + span.offsetTop > window.innerHeight) {
+                span._own.dir.y *= -1;
             }
-            t._own.real = {
-                x : offset.x + t.offsetLeft,
-                y : offset.y + t.offsetTop
-            },
-            t._own.size = {
-                x : t.offsetWidth,
-                y : t.offsetHeight
-            }
+            span._own.pos.x += span._own.vel.x * span._own.speed.x * span._own.dir.x;
+            span._own.pos.y += span._own.vel.y * span._own.speed.y * span._own.dir.y;
+            span.style.transform = `translate(${span._own.pos.x}px, ${span._own.pos.y}px)`;
         });
     };
 
-    this.getDim();
-    this.floatText = function() {
-        this.textSpans.forEach(function(t,i) {
-            if(t._own.pos.x + t._own.real.x < that.bounds.min.x ||t._own.pos.x + t._own.real.x > that.bounds.max.x) {
-                t._own.dir.x *= -1;
-            }
-            if(t._own.pos.y + t._own.real.y < that.bounds.min.y ||t._own.pos.y + t._own.real.y > that.bounds.max.y) {
-                t._own.dir.y *= -1;
-            }
-            t._own.pos.x += (t._own.vel.x * t._own.speed.x) * t._own.dir.x;
-            t._own.pos.y += (t._own.vel.y * t._own.speed.y) * t._own.dir.y;
-            t.style.transform = 'translateX(' + t._own.pos.x + 'px) translateY(' + t._own.pos.y + 'px)';
-        });
+    function render() {
+        requestAnimationFrame(render);
+        that.update();
     }
 
-    this.update = function() {
-        if (this.animate) {
-            if(this.floating) {
-                this.floatText();
-            }else{
-                this.floatBackwards();
-            }
-        }
-    }
-    this.floatBackwards = function() {
-        this.textSpans.forEach(function(t,i) {
-            var x = that.lerp(t._own.pos.x,0, that.resetTime / 10);
-            var y = that.lerp(t._own.pos.y,0, that.resetTime / 10);
-
-            t.style.transform = 'translateX(' + x + 'px) translateY(' + y + 'px)';
-        });
-
-        if (this.resetTime === 10) {
-            this.animate=false;
-            this.resetTime = 0;
-        }
-        this.resetTime++;
-    }
-    this.reset = function() {
-        this.floating = false;
-    }
-    this.restart = function() {
-        this.textSpans.forEach(function(t,i){
-            t._own.pos.x = 0;
-            t._own.pos.y = 0;
-        });
-        this.floating = true;
-        this.animate = true;
-    }
-    window.onresize = function() {
-        that.getDim();
-    }
-
+    render();
 }
 
-var paragraph = new Gravity('text');
-var gravity = new Gravity('reset');
+new Gravity('text'); // Initialize the Gravity functionality
 
-var icon = document.getElementById('reset');
-icon.addEventListener('click', function(){
-    if(gravity.animate) {
-        gravity.reset();
-        paragraph.reset();
-    }else{
-        gravity.restart();
-        paragraph.restart();
-    }
-});
 
-var render = function(time) {
-    requestAnimationFrame(render);
-    animation(time);
-};
-
-function animation(time) {
-    paragraph.update();
-    gravity.update();
-};
-
-render(time);
 
