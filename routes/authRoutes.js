@@ -9,11 +9,6 @@ router.post('/createUser', signUpController);
 router.get('/login', (req, res) => res.render('login'));
 router.post('/submitUser', loginController);
 
-router.get('/robots', (req, res) => res.render('robots'));
-router.get('/robot_details/:id', (req,res) => {
-    res.render('robot_details', {robot: req.params.id});
-});
-
 router.get('/logout', logoutController);
 
 router.get('/index', (req, res) => {
