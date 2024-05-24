@@ -12,7 +12,7 @@ const loader = new GLTFLoader()
 loader.load('/img/Robot.glb', function(glb){
     console.log(glb)
     root=glb.scene
-    const scale = 1;
+    const scale = 0.25;
     root.scale.set(scale,scale,scale);
 
     const box = new THREE.Box3().setFromObject(root);
@@ -20,7 +20,7 @@ loader.load('/img/Robot.glb', function(glb){
     const size = box.getSize(new THREE.Vector3());
 
     root.position.sub(center); // Center the model
-    root.position.y += size.y / 2; 
+    //root.position.y += size.y / 2; 
 
     scene.add(root)
     camera.lookAt(root.position);
@@ -85,21 +85,21 @@ function animate() {
         root.rotation.y += 0.005; // Adjust the rotation speed as needed
 
         // Move the model up and down
-        if (moveUp) {
-            root.position.y += speed;
-            if (root.position.y >= maxPosition) {
-                moveUp = false;
-            }
-        } else {
-            root.position.y -= speed;
-            if (root.position.y <= minPosition) {
-                moveUp = true;
-            }
-        }
-        const box = new THREE.Box3().setFromObject(root);
-        const center = box.getCenter(new THREE.Vector3());
-        camera.position.set(center.x, center.y + 2, 3); // Adjust the camera position
-        camera.lookAt(center);
+        // if (moveUp) {
+        //     root.position.y += speed;
+        //     if (root.position.y >= maxPosition) {
+        //         moveUp = false;
+        //     }
+        // } else {
+        //     root.position.y -= speed;
+        //     if (root.position.y <= minPosition) {
+        //         moveUp = true;
+        //     }
+        // }
+        // const box = new THREE.Box3().setFromObject(root);
+        // const center = box.getCenter(new THREE.Vector3());
+        // camera.position.set(center.x, center.y + 2, 3); // Adjust the camera position
+        // camera.lookAt(center);
     }
 
     // Update controls
