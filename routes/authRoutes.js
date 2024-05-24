@@ -9,8 +9,6 @@ router.post('/createUser', signUpController);
 router.get('/login', (req, res) => res.render('login'));
 router.post('/submitUser', loginController);
 
-router.get('/robots', (req, res) => res.render('robots'));
-
 router.get('/logout', logoutController);
 
 router.get('/index', (req, res) => {

@@ -43,6 +43,7 @@ app.set('view engine', 'ejs');
 app.use(require('./routes/authRoutes'));
 app.use(require('./routes/resetRoutes'));
 app.use(require('./routes/orderRoutes'));
+app.use(require('./routes/checkoutRoutes.js'));
 // --------------------------------
 
 app.get('/', (req, res) => {
@@ -93,57 +94,6 @@ app.get("/signup", (req, res) => {
     res.render('signup');
 });
 
-// app.post('/createUser', async (req, res) => {
-//     var username = req.body.username;
-//     var email = req.body.email;
-//     var password = req.body.password;
-//     var address =  req.body.address;
-//     var city = req.body.city;
-//     var province = req.body.province;
-//     var postal = req.body.postal;
-
-//     const schema = Joi.object({
-//         username: Joi.string().alphanum().max(20).required(),
-//         email: Joi.string().email(),
-//         password: Joi.string().max(20).required(),
-//         address: Joi.string().required(),
-//         city: Joi.string().max(20).required(),
-//         province: Joi.string().max(20).required(),
-//         postal: Joi.string().max(20).required(),
-//     });
-
-//     const validationResult = schema.validate({username, email, password, address, city, province, postal});
-//     if (validationResult.error != null) {
-//         console.log(validationResult.error);
-//         res.redirect('/signup');
-//         return;
-//     }
-
-//     var hashedPassword = await bcrypt.hash(password, 12);
-    
-//     try {
-//         var newUser = new User({
-//             username: username,
-//             email: email,
-//             password: hashedPassword,
-//             address: address,
-//             city: city,
-//             province: province,
-//             postal: postal,
-//         });
-//         await newUser.save();
-//     } catch (e) {
-//         console.error(e);
-//         res.status(500).send('Internal server error');
-//         return;
-//     }
-//     console.log("Inserted User");
-
-//     res.send(`Created User</br>
-//     <a href='/login'><button>Login</button></a>
-//     `);
-// });
-
 app.get('/profile', async (req, res) => {
     if (req.session.authenticated) {
         console.log("in profile");
@@ -186,18 +136,6 @@ app.post('/update/:email', async (req, res) => {
     res.redirect('/profile');
 });
 
-app.get('/add-to-cart/:id', async (req, res) => {
-    var roboName = req.params.id;
-    var cart = new Cart(req.session.cart ? req.session.cart : {items: {}});
-
-    const robot = await Robot.findOne({model: roboName});
-
-    // Add robot to the cart
-    cart.add(robot);
-    req.session.cart = cart;
-    res.redirect('/robots');
-});
-
 app.get('/logout', (req,res) => {
     req.session.destroy();
     res.redirect("/");
@@ -206,7 +144,7 @@ app.get('/logout', (req,res) => {
 app.get('*', (req, res) => {
     res.status(404);
     res.render('404');
-})
+});
 
 app.listen(port, () => {
     console.log(`server started listening on port ${port}`);
