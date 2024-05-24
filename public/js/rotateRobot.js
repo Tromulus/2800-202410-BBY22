@@ -1,7 +1,9 @@
-import * as THREE from './three.js-master/build/three.module.js'
-console.log(THREE)
-import {GLTFLoader} from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
+//import * as THREE from './three.js-master/build/three.module.js'
+//import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 
 const canvas = document.querySelector('.webgl')
 const scene = new THREE.Scene()
