@@ -93,6 +93,10 @@ app.get("/signup", (req, res) => {
     res.render('signup');
 });
 
+app.get("/surprise", (req, res) => {
+    res.render("rotateRobot");
+});
+
 // app.post('/createUser', async (req, res) => {
 //     var username = req.body.username;
 //     var email = req.body.email;
@@ -126,7 +130,7 @@ app.get("/signup", (req, res) => {
 //             username: username,
 //             email: email,
 //             password: hashedPassword,
-//             address: address,
+//             add"ress: address,
 //             city: city,
 //             province: province,
 //             postal: postal,

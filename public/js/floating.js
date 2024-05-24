@@ -77,7 +77,7 @@ function Gravity(id) {
         } else if (this.clickCount === 2) {
             this.restoreOriginalText();
         } else if (this.clickCount === 3) {
-            window.location.href = '/another-page'; // Redirect to another page
+            window.location.href = '/surprise'; // Redirect to another page
         }
     };
 
