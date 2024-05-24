@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .webgl {
     position: absolute;
     z-index: 0;
