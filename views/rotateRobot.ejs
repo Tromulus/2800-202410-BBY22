@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLTF Model</title>
+    <link rel="stylesheet" href="/css/style_rotateRobot.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <canvas class="webgl"></canvas>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+          }
+        }
+      </script>
+      <div>
+        <audio id="music" src="/img/Surprise.mp3" autoplay controls></audio>
+      </div>
+    <script type="module" src="/js/rotateRobot.js"></script>
+</body>
+</html>
