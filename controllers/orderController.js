@@ -46,7 +46,8 @@ const placeOrderController = async (req, res, next) => {
 const orderDetailController = async (req, res, next) => {
     try {
         const orders = await Order.find({ username: req.session.username });
-        res.render('orderDetail', { authenticated: req.session.authenticated, orders: orders });
+        const cart = req.session.cart ? req.session.cart : null;
+        res.render('orderDetail', { authenticated: req.session.authenticated, orders: orders, cart: cart });
     } catch (error) {
         next(error);
     }
@@ -60,7 +61,8 @@ const trackingController = async (req, res, next) => {
             res.status(404).send('Order not found');
             return;
         }
-        res.render('tracking', { authenticated: req.session.authenticated, order: order, google_maps_api_key: process.env.GOOGLE_MAPS_API_KEY });
+        const cart = req.session.cart ? req.session.cart : null;
+        res.render('tracking', { authenticated: req.session.authenticated, order: order, cart: cart, google_maps_api_key: process.env.GOOGLE_MAPS_API_KEY });
     } catch (error) {
         next(error);
     }
