@@ -129,11 +129,45 @@
     <div class="container">
         <div class="order-map-container">
             <div class="order-info">
-                <h1>Order #<%= order.orderNumber %></h1>
+                <h1>Order Number: <%= order.orderNumber %></h1>
                 <p>Date: <%= new Date(order.date).toLocaleDateString() %></p>
                 <p>Name: <%= order.username %></p>
                 <p>Address: <%= order.address %></p>
-                <p id="deliveryStatus">Delivery Status: In Transit</p>
+                <p id="deliveryStatus"> Delivery Status: In Transit</p>
+                <div class="cart-info">
+                    <h2>Order Information</h2>
+                    <% if (cart && cart.models) { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let model in cart.models) { %>
+                                    <tr>
+                                        <td><img src="/img/robots/<%= cart.models[model].model %>.png" alt="<%= cart.models[model].model %>" class="robot-img"></td>
+                                        <td><%= cart.models[model].model %></td>
+                                        <td>$<%= cart.models[model].price %></td>
+                                        <td><%= cart.models[model].qty %></td>
+                                        <td>$<%= (cart.models[model].price * cart.models[model].qty).toFixed(2) %></td>
+                                    </tr>
+                                <% } %>
+                                <tr>
+                                    <td colspan="4" class="total-text">Total Price:</td>
+                                    <td class="total-price">$<%= cart.totalPrice %></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <p class="total">Total Quantity: <%= cart.totalQty %></p> -->
+                    <% } else { %>
+                        <p>Your cart is empty.</p>
+                    <% } %>
+                </div>
             </div>
             <div class="map-container">
                 <div id="map"></div>
@@ -141,7 +175,7 @@
         </div>
     </div>
 
-    <h2>Shopping Cart</h2>
+    <!-- <h2>Order Information</h2>
     <% if (cart && cart.models) { %>
         <ul>
             <% for (let model in cart.models) { %>
@@ -155,7 +189,7 @@
         <p>Total Price: $<%= cart.totalPrice %></p>
     <% } else { %>
         <p>Your cart is empty.</p>
-    <% } %>
+    <% } %> -->
 
     <%- include("templates/footer") %> 
 </body>

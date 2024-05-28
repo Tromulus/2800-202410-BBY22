@@ -31,9 +31,11 @@
 }
 
 .order-info h1 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
+    font-size: 2em;
+    margin-bottom: 10px;
     color: #333;
+    
+
 }
 
 .order-info p {
@@ -42,15 +44,74 @@
 }
 
 #map {
-    height: 400px;
-    width: 100%;
+    height: 750px;
+    width: auto;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-@media (max-width: 768px) {
+.cart-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.cart-info h2 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cart-info table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-info table, th, td {
+    border: 1px solid #ddd;
+}
+
+.cart-info th, .cart-info td {
+    padding: 8px;
+    text-align: center;
+}
+
+.cart-info th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+.cart-info img {
+    border-radius: 4px;
+    width: 250px; 
+    height: auto;
+}
+
+.cart-info .total {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.cart-info .total-text {
+    text-align: right;
+    font-weight: bold;
+}
+
+.cart-info .total-price {
+    text-align: right;
+    font-weight: bold;
+}
+@media (max-width: 430px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
     .order-map-container {
         flex-direction: column;
+        align-items: center;
     }
 
     .order-info, .map-container {
@@ -59,5 +120,13 @@
 
     .map-container {
         margin-top: 20px;
+    }
+
+    .cart-info table, th, td {
+        font-size: 0.9em;
+    }
+
+    .cart-info img {
+        width: 80px; 
     }
 }

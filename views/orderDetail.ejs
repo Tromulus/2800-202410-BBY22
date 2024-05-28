@@ -1,29 +1,29 @@
+<link rel="stylesheet" type="text/css" href="/css/style_order.css">
 <%- include('templates/header') %>
-<h1>Order Details</h1>
-<ul>
+<h1>Order Details: </h1>
+<div class="order-container">
   <% orders.forEach(order => { %>
-    <li>
-      Order Number: <%= order.orderNumber %>, 
-      Address: <%= order.address %>,
-      Date: <%= order.date.toDateString() %>,
-      <a href="/tracking/<%= order.orderNumber %>">Track Order</a>
-    </li>
-  <% }) %>
-</ul>
+    <div class="order-card">
+      <div class="order-header">
+        <span>Order Number: <%= order.orderNumber %></span>
+        <span>Date: <%= order.date.toDateString() %></span>
+        <span class="order-status">PAYED</span>
+        <a href="/tracking/<%= order.orderNumber %>" class="track-order">Track Order</a>
 
-<h2>Shopping Cart</h2>
-<% if (cart && cart.models) { %>
-  <ul>
-    <% for (let model in cart.models) { %>
-      <li>
-        <img src="/img/robots/<%= cart.models[model].model %>.png" alt="<%= cart.models[model].model %>" width="100" height="100">
-        <p><%= cart.models[model].model %> - $<%= cart.models[model].price %> x <%= cart.models[model].qty %></p>
-      </li>
-    <% } %>
-  </ul>
-  <p>Total Quantity: <%= cart.totalQty %></p>
-  <p>Total Price: $<%= cart.totalPrice %></p>
-<% } else { %>
-  <p>Your cart is empty.</p>
-<% } %>
+      </div>
+      <div class="order-body">
+        <div class="order-images">
+          <% if (cart && cart.models) { %>
+            <% for (let model in cart.models) { %>
+              <img src="/img/robots/<%= cart.models[model].model %>.png" alt="<%= cart.models[model].model %>">
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+      <div class="order-footer">
+        <span class="order-total">Total Price: $<%= cart.totalPrice %></span><br>
+      </div>
+    </div>
+  <% }) %>
+</div>
 <%- include('templates/footer') %>
