@@ -1,6 +1,7 @@
 // paymentRoutes.js
 const express = require('express');
 const router = express.Router();
+const { processPayment } = require('../controllers/paymentController');
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // Replace with your actual test secret key
 const bodyParser = require('body-parser');
@@ -26,64 +27,29 @@ router.post('/create-checkout-session', async (req, res) => {
 
 // Custom checkout page route
 // router.post('/process-payment', async (req, res) => {
-//     // Retrieve payment information from the request body
-//     const { cardNumber, cardName, cardExpiry, cardCvc, email, amount } = req.body;
+//     const { paymentMethodId } = req.body;
 
 //     try {
-//         // Create a Payment Intent to process the payment
 //         const paymentIntent = await stripe.paymentIntents.create({
-//             amount: parseInt(amount), // Amount in cents (e.g., $50.00)
+//             amount: 5000, // The amount in cents. Make this responsive
 //             currency: 'cad',
-//             description: 'Example Product',
-//             payment_method_types: ['card'],
+//             payment_method: paymentMethodId,
 //             confirmation_method: 'manual',
 //             confirm: true,
-//             receipt_email: email, // Pass the customer's email to Stripe
-//             payment_method: {
-//                 card: {
-//                     number: cardNumber,
-//                     exp_month: cardExpiry.split('/')[0].trim(), // Extract month from MM/YY format
-//                     exp_year: cardExpiry.split('/')[1].trim(),  // Extract year from MM/YY format
-//                     cvc: cardCvc,
-//                     name: cardName
-//                     // for storing in database, store everything EXCEPT CVV code.
-//                     // CVV code is used only at transaction.
-//                     // tokenize at LEAST card number
-//                 }
-//             }
+//             return_url: 'https://localhost:3000/success', // Replace with your success URL
 //         });
 
-//         // If payment is successful, respond with success message
-//         res.status(200).json({ message: 'Payment successful' });
+//         // Handle successful payment
+//         // You can add code here to update your database or perform other actions
+//         // Once the payment is successful, redirect the user to the success page
+//         console.log("succeeded. Now fix this part.");
+//         res.redirect('/success');
 //     } catch (error) {
-//         // Handle any errors and send an error response
-//         console.error('Error processing payment:', error);
-//         res.status(500).json({ error: 'Failed to process payment' });
+//         res.status(500).json({ error: error.message });
 //     }
 // });
 
-router.post('/process-payment', async (req, res) => {
-    const { paymentMethodId } = req.body;
-
-    try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: 5000, // The amount in cents
-            currency: 'cad',
-            payment_method: paymentMethodId,
-            confirmation_method: 'manual',
-            confirm: true,
-            return_url: 'https://localhost:3000/success', // Replace with your success URL
-        });
-
-        // Handle successful payment
-        // You can add code here to update your database or perform other actions
-        // Once the payment is successful, redirect the user to the success page
-        console.log("succeeded. Now fix this part.");
-        res.redirect('/success');
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+router.post('/process-payment', processPayment);
 
 // Middleware to parse webhook request
 router.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {

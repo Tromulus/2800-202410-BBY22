@@ -120,7 +120,7 @@
               </div>
               <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Shipping address</h4>
-                <form id="order-form" action="/placeOrder" method="POST" class="needs-validation" novalidate="">
+                <form id="order-form" action="/placeOrder" method="POST" class="needs-validation" novalidate=""> <!-- form start -->
                   <div class="row g-3">
                     <div class="col-sm-6">
                       <label for="firstName" class="form-label">First name</label>
@@ -140,7 +140,7 @@
                       </div>
                     </div>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <label for="username" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text">@</span>
@@ -150,11 +150,10 @@
                           Your username is required.
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="col-12">
-                      <label for="email" class="form-label">Email <span
-                          class="text-body-secondary">(Optional)</span></label>
+                      <label for="email" class="form-label">Email</label>
                       <input type="email" class="form-control" id="email" placeholder="you@example.com"
                         fdprocessedid="kzwua">
                       <div class="invalid-feedback">
@@ -163,7 +162,7 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="address" class="form-label">Street Address</label>
+                      <label for="street" class="form-label">Street Address</label>
                       <input type="text" class="form-control" id="street" name="street" placeholder="1234 Main St" required=""
                         fdprocessedid="uhg5fe">
                       <div class="invalid-feedback">
@@ -172,7 +171,7 @@
                     </div>
 
                     <div class="col-md-5">
-                      <label for="country" class="form-label">City</label>
+                      <label for="city" class="form-label">City</label>
                       <input type="text" class="form-control" id="city" name="city" placeholder="Toronto" required="">
 
                       <div class="invalid-feedback">
@@ -181,8 +180,8 @@
                     </div>
 
                     <div class="col-md-4">
-                      <label for="state" class="form-label">State</label>
-                      <input type="text" class="form-control" id="state" name="state" placeholder="Ontario" required="">
+                      <label for="province" class="form-label">Province</label>
+                      <input type="text" class="form-control" id="province" name="province" placeholder="Ontario" required="">
 
                       <div class="invalid-feedback">
                         Please provide a valid state/province.
@@ -190,7 +189,7 @@
                     </div>
 
                     <div class="col-md-3">
-                      <label for="zip" class="form-label">Country</label>
+                      <label for="country" class="form-label">Country</label>
                       <input type="text" class="form-control" id="country" name="country" placeholder="Canada" required="">
                       <div class="invalid-feedback">
                         Country is required.
@@ -212,15 +211,15 @@
                       <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
                       <label class="form-check-label" for="debit">Debit card</label>
                     </div>
-                    <div class="form-check">
+                    <!-- <div class="form-check">
                       <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
                       <label class="form-check-label" for="paypal">PayPal</label>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="row gy-3">
                     <div class="col-md-6">
-                      <label for="cc-name" class="form-label">Name on card</label>
+                      <label for="card-name" class="form-label">Name on card</label>
                       <input type="text" class="form-control" id="card-name" placeholder="" required=""
                         fdprocessedid="0zn2dq">
                       <small class="text-body-secondary">Full name as displayed on card</small>
@@ -229,29 +228,6 @@
                       </div>
                     </div>
 
-                    <!-- <div class="col-md-6">
-                    <label for="cc-number" class="form-label">Credit card number</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required="" fdprocessedid="3zf7oi">
-                    <div class="invalid-feedback">
-                      Credit card number is required
-                    </div>
-                  </div>
-      
-                  <div class="col-md-3">
-                    <label for="cc-expiration" class="form-label">Expiration</label>
-                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required="" fdprocessedid="gd205z">
-                    <div class="invalid-feedback">
-                      Expiration date required
-                    </div>
-                  </div>
-      
-                  <div class="col-md-3">
-                    <label for="cc-cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required="" fdprocessedid="mjignu">
-                    <div class="invalid-feedback">
-                      Security code required
-                    </div>
-                  </div> -->
                     <div class="form-group">
                       <label for="card-element">Credit or debit card</label>
                       <div id="card-element"></div>
@@ -281,6 +257,8 @@
     const stripe = Stripe('pk_test_51PJMer00K9SfgrcVbWAtcleHZcyIHsnEZmyKZvWUTSYQdby0BDZAjYkfRqqUQxyJ8kAj7GkNzC02DMc54GdvMYJk00QVvA4ovV'); // Replace with your actual test publishable key
 
     const elements = stripe.elements();
+
+    // This is the card that users see on the page
     const card = elements.create('card', {
       style: {
         base: {
@@ -301,6 +279,7 @@
     });
     card.mount('#card-element');
 
+    // This handles the error based on the changes to the values of the card.
     card.on('change', (event) => {
       const displayError = document.getElementById('card-errors');
       if (event.error) {
@@ -310,39 +289,15 @@
       }
     });
 
+    // When user clicks submit:
     document.getElementById('order-form').addEventListener('submit', async (event) => {
       event.preventDefault();
-
-      // const form = document.getElementById('order-form');
-      // const formData = new FormData(form);
-
-      // // First POST request to /placeOrder
-      // const response1 = await fetch('/placeOrder', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-
-      // if (!response1.ok) {
-      //   console.error('Error with first POST request');
-      //   return;
-      // }
-
-      // // Second POST request to another endpoint
-      // const response2 = await fetch('/process-payment', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-
-      // if (!response2.ok) {
-      //   console.error('Error with second POST request');
-      //   return;
-      // }
 
       const cardName = document.getElementById('card-name').value;
       const email = document.getElementById('email').value;
       const postalCode = document.getElementById('postal-code').value;
 
-
+      // Create the billing details
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: card,
@@ -359,7 +314,7 @@
         const displayError = document.getElementById('card-errors');
         displayError.textContent = error.message;
       }
-      else {
+      else { // if no error, finally, process it.
         const response = await fetch('/process-payment', {
           method: 'POST',
           headers: {
