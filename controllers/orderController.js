@@ -23,7 +23,7 @@ async function getCoordinates(address) {
 const placeOrderController = async (req, res, next) => {
     try {
         const { street, city, province, postal } = req.body;
-        const fullAddress = `${street}, ${city}, ${province}, ${postal}`;
+        const fullAddress = `${street}, ${city}`;
         const coordinates = await getCoordinates(fullAddress);
         const orderNumber = crypto.randomInt(100000000, 999999999);
         const order = new Order({
