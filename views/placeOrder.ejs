@@ -1,20 +1,67 @@
+<link rel="stylesheet" type="text/css" href="/css/style_placeorder.css">
 <%- include("templates/header") %>
 <body>
-    <h1>Place Order</h1>
-    <form action="/placeOrder" method="POST">
-        <label for="street">Street Address:</label>
-        <input type="text" id="street" name="street" required><br>
-        
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required><br>
-        
-        <label for="state">State/Province:</label>
-        <input type="text" id="state" name="state" required><br>
-        
-        <label for="country">Country:</label>
-        <input type="text" id="country" name="country" required><br>
-        
-        <button type="submit">Place Order</button>
+    <h1>Delivery Information📦</h1>
+    <form id="place-order-form" action="/placeOrder" method="POST">
+        <div class="address-container">
+            <div>
+                <div class="address-title">Shipping Address</div>
+                <label for="street">Street Address:</label>
+                <input type="text" id="street" name="street" required>
+                
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+                
+                <label for="state">State/Province:</label>
+                <input type="text" id="state" name="state" required>
+                
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" required>
+                
+                <label for="postal">Postal Code:</label>
+                <input type="text" id="postal" name="postal" required>
+            </div>
+            <div>
+                <div class="address-title">Billing Address</div>
+                <input type="checkbox" id="sameAddress" onclick="copyAddress()">
+                <label for="sameAddress">Same as my shipping address</label>
+                <label for="billing_street">Street Address:</label>
+                <input type="text" id="billing_street" name="billing_street">
+                
+                <label for="billing_city">City:</label>
+                <input type="text" id="billing_city" name="billing_city">
+                
+                <label for="billing_state">State/Province:</label>
+                <input type="text" id="billing_state" name="billing_state">
+                
+                <label for="billing_country">Country:</label>
+                <input type="text" id="billing_country" name="billing_country">
+                
+                <label for="billing_postal">Postal Code:</label>
+                <input type="text" id="billing_postal" name="billing_postal">
+            </div>
+        </div>
+        <div class="confirm-button">
+            <button type="submit">Confirm My Order</button>
+        </div>
     </form>
 </body>
 <%- include("templates/footer") %>
+
+<script>
+    function copyAddress() {
+        if (document.getElementById('sameAddress').checked) {
+            document.getElementById('billing_street').value = document.getElementById('street').value;
+            document.getElementById('billing_city').value = document.getElementById('city').value;
+            document.getElementById('billing_state').value = document.getElementById('state').value;
+            document.getElementById('billing_country').value = document.getElementById('country').value;
+            document.getElementById('billing_postal').value = document.getElementById('postal').value;
+        } else {
+            document.getElementById('billing_street').value = '';
+            document.getElementById('billing_city').value = '';
+            document.getElementById('billing_state').value = '';
+            document.getElementById('billing_country').value = '';
+            document.getElementById('billing_postal').value = '';
+        }
+    }
+</script>
