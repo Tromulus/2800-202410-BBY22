@@ -1,5 +1,4 @@
 
-
 function Gravity(id) {
     var that = this;
     var element = document.getElementById(id);
