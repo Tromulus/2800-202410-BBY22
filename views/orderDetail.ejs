@@ -1,6 +1,11 @@
 <link rel="stylesheet" type="text/css" href="/css/style_order.css">
 <%- include('templates/header') %>
 <h1>Order Details: </h1>
+<% if (errorMessage) { %>
+  <div class="alert alert-danger">
+    <%= errorMessage %>
+  </div>
+<% } else { %>
 <div class="order-container">
   <% orders.forEach(order => { %>
     <div class="order-card">
@@ -26,4 +31,5 @@
     </div>
   <% }) %>
 </div>
+<% } %>
 <%- include('templates/footer') %>

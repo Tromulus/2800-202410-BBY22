@@ -96,7 +96,12 @@ const orderDetailController = async (req, res, next) => {
     try {
         const orders = await Order.find({ username: req.session.username });
         const cart = req.session.cart ? req.session.cart : null;
-        res.render('orderDetail', { authenticated: req.session.authenticated, orders: orders, cart: cart });
+
+        if (!cart || !cart.models || Object.keys(cart.models).length === 0) {
+            res.render('orderDetail', { authenticated: req.session.authenticated, orders: orders, cart: null, errorMessage: 'Shopping cart is empty.' });
+        } else {
+            res.render('orderDetail', { authenticated: req.session.authenticated, orders: orders, cart: cart, errorMessage: null });
+        }
     } catch (error) {
         next(error);
     }
