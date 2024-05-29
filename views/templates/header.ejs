@@ -41,3 +41,21 @@
         </div>
     </header>
     <div class="container">
+
+        <script>
+            // Function to get query parameters
+            function getQueryParams() {
+                const params = new URLSearchParams(window.location.search);
+                return Array.from(params.entries()).reduce((acc, [key, value]) => {
+                    acc[key] = value;
+                    return acc;
+                }, {});
+            }
+    
+            // Check if there are any errors in the query parameters
+            const queryParams = getQueryParams();
+            if (queryParams.errors) {
+                const errors = JSON.parse(decodeURIComponent(queryParams.errors));
+                alert(errors.join('\n'));
+            }
+        </script>

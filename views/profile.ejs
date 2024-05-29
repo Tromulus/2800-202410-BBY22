@@ -51,7 +51,7 @@
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <label for="address" class="form-label">City</label>
+                    <label for="city" class="form-label">City</label>
                   </div>
                   <div class="col-sm-9">
                     <div class="mb-3">
@@ -63,19 +63,34 @@
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <label for="address" class="form-label">Province/State</label>
+                    <label for="province" class="form-label">Province</label>
                   </div>
                   <div class="col-sm-9">
-                    <div class="mb-3">
-                      <input type="text" name="province" class="form-control" id="province"
-                        aria-describedby="provinceHelp" style="width: auto" value="<%= user.province %>">
-                    </div>
+                    <fieldset>
+                      <div class="mb-3">
+                        <select name="province" id="province" class="form-select" aria-label="Default select example" style="width: auto">
+                          <option value="AB">AB</option>
+                          <option value="BC">BC</option>
+                          <option value="MB">MB</option>
+                          <option value="NB">NB</option>
+                          <option value="NL">NL</option>
+                          <option value="NS">NS</option>
+                          <option value="ON">ON</option>
+                          <option value="PE">PE</option>
+                          <option value="QC">QC</option>
+                          <option value="SK">SK</option>
+                          <option value="NT">NT</option>
+                          <option value="NU">NU</option>
+                          <option value="YT">YT</option>
+                        </select>
+                      </div>
+                    </fieldset>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <label for="address" class="form-label">Postal/Zip Code</label>
+                    <label for="postal" class="form-label">Postal</label>
                   </div>
                   <div class="col-sm-9">
                     <div class="mb-3">
@@ -104,4 +119,17 @@
     </div>
     </div>
   </section>
+
+  <script>
+    // Get the select element by its ID
+    const selectElement = document.getElementById('province');
+    
+    // Find the option element with value equal to 'something'
+    const optionElement = selectElement.querySelector("option[value='<%= user.province %>']");
+    
+    // If the option element is found, toggle the 'selected' attribute
+    if (optionElement) {
+        optionElement.setAttribute('selected', 'selected');
+    }
+    </script>
   <%- include("templates/footer") %>

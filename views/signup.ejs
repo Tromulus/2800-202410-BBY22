@@ -1,5 +1,5 @@
 <%- include("templates/header") %>
-    <section class="vh-90 bg-image"
+    <section class="vh-90 bg-image mb-5"
         style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
@@ -44,15 +44,34 @@
                                     </div>
 
                                     <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="province">Province/State*</label>
-                                        <input type="text" id="province" name="province"
-                                        placeholder="Enter a province/state" class="form-control form-control-lg" required />
+                                        <label class="form-label" for="province">Province*</label>
+                                        <fieldset>
+                                            <div class="mb-3">
+                                              <select name="province" id="province" class="form-select" aria-label="Default select example" style="width: auto">
+                                                <option selected>--Select one--</option>
+                                                <option value="AB">AB</option>
+                                                <option value="BC">BC</option>
+                                                <option value="MB">MB</option>
+                                                <option value="NB">NB</option>
+                                                <option value="NL">NL</option>
+                                                <option value="NS">NS</option>
+                                                <option value="ON">ON</option>
+                                                <option value="PE">PE</option>
+                                                <option value="QC">QC</option>
+                                                <option value="SK">SK</option>
+                                                <option value="NT">NT</option>
+                                                <option value="NU">NU</option>
+                                                <option value="YT">YT</option>
+                                              </select>
+                                            </div>
+                                          </fieldset>
                                     </div>
 
                                     <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="postal">Postal/Zip Code*</label>
+                                        <label class="form-label" for="postal">Postal*</label>
                                         <input type="text" id="postal" name="postal"
-                                        placeholder="Enter a postal/zip code" class="form-control form-control-lg" required />
+                                            placeholder="Enter a postal code" class="form-control form-control-lg"
+                                            required />
                                     </div>
 
                                     <p>Required *</p>
