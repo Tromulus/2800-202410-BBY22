@@ -50,7 +50,7 @@ app.use(require('./routes/paymentRoutes')); // Added by sunwoo, for payment
 app.get('/', (req, res) => {
     if (req.session.authenticated) {
         var username = req.session.username;
-        res.render("index", {username: username});
+        res.render("robots", {username: username});
     } else {
         res.render('landing');
     }
@@ -112,7 +112,7 @@ app.get('/profile', async (req, res) => {
 
         res.render("profile", {user: result});
     } else {
-        res.render("landing");
+        res.render("login");
     }
 });
 

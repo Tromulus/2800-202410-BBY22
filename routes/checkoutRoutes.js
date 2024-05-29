@@ -4,7 +4,7 @@ const Cart = require('../models/cart');
 const Robot = require('../models/robot');
 const sessionValidation = require('../middlewares/sessionValidation');
 
-router.get('/robots', (req, res) => res.render('robots', { username: req.session.username }));
+router.get('/robots', sessionValidation, (req, res) => res.render('robots', { username: req.session.username }));
 
 router.get('/add-to-cart/:id', sessionValidation, async (req, res) => {
     var roboName = req.params.id;
