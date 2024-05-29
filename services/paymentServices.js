@@ -1,7 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function createPaymentIntent(paymentMethodId, totalAmount) {
-    console.log("Total amount: " + totalAmount)
     try {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: totalAmount, // The amount in cents
