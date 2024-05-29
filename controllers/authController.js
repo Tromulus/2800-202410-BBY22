@@ -8,7 +8,7 @@ const signUpController = async (req, res, next) => {
         req.session.authenticated = true;
         req.session.username = req.body.username;
         req.session.cookie.maxAge = 1000 * 60 * 60 * 24;
-        return res.redirect('/index');
+        return res.redirect('/robots');
         
     } catch (error) {
         next(error);
@@ -21,7 +21,7 @@ const loginController = async (req, res, next) => {
         req.session.authenticated = true;
         req.session.username = req.body.username;
         req.session.cookie.maxAge = 1000 * 60 * 60 * 24;
-        return res.redirect('/index');
+        return res.redirect('/robots');
     } catch (error) {
         console.error('Error: ', error.message);
         res.render('loginError', {errorMessage: error.message});

@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="order-footer">
-        <span class="order-total">Total Price: $<%= cart.totalPrice %></span><br>
+        <span class="order-total">Total Price: $<%= (cart.totalPrice + 4.99).toFixed(2) %></span><br>
       </div>
     </div>
   <% }) %>
