@@ -1,6 +1,8 @@
 const Order = require('../models/order');
 const crypto = require('crypto');
 const axios = require('axios');
+const { createPaymentIntent } = require('../services/paymentServices');
+
 
 async function getCoordinates(address) {
     const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
@@ -43,6 +45,53 @@ const placeOrderController = async (req, res, next) => {
     }
 };
 
+// Combined controller for address + payment -- by Sunwoo
+const placeOrderController2 = async (req, res, next) => {
+    try {
+        const { street, city, province, postal, paymentMethodId, amount } = req.body;
+
+        console.log("Street: " + street);
+        console.log("City: " + city);
+        
+        // Create order number and full address
+        const fullAddress = `${street}, ${city}`;
+        const coordinates = await getCoordinates(fullAddress);
+        const orderNumber = crypto.randomInt(100000000, 999999999);
+
+        // Process payment using service imported
+        const { paymentIntent, error } = await createPaymentIntent(paymentMethodId, amount);
+
+        // if payment got error
+        if (error) {
+            return res.status(500).json({ error });
+        }
+
+        // If payment is successful, save order
+        if (paymentIntent.status === 'succeeded' || paymentIntent.status === 'requires_action') {
+            const order = new Order({
+                username: req.session.username,
+                address: fullAddress,
+                city: city,
+                province: province,
+                postal: postal,
+                coordinates: coordinates,
+                orderNumber: orderNumber,
+                date: new Date(),
+                amount: amount / 100
+            });
+            await order.save();
+
+            const redirectURL = '/tracking/' + orderNumber;
+            res.redirect(redirectURL);
+        } else {
+            res.status(400).json({ error: 'Payment failed or requires additional action.' });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+// Sunwoo's section ends --
+
 const orderDetailController = async (req, res, next) => {
     try {
         const orders = await Order.find({ username: req.session.username });
@@ -70,6 +119,7 @@ const trackingController = async (req, res, next) => {
 
 module.exports = {
     placeOrderController,
+    placeOrderController2,
     orderDetailController,
     trackingController
 };

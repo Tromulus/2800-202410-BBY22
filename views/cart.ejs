@@ -101,7 +101,7 @@
                       <h6 class="my-0">Rental</h6>
                       <small class="text-body-secondary">Brief description</small>
                     </div>
-                    <span class="text-body-secondary">$<%= cart.totalPrice %></span>
+                    <span class="text-body-secondary">$<%= cart.totalPrice.toFixed(2) %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
@@ -112,7 +112,8 @@
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Total (CAD)</span>
-                    <strong>$<%= (cart.totalPrice + 4.99).toFixed(2) %></strong>
+                    <strong id="totalPrice" data-total-amount="<%= (cart.totalPrice + 4.99).toFixed(2) %>">$<%= (cart.totalPrice +
+                        4.99).toFixed(2) %></strong>
                   </li>
                 </ul>
 
@@ -120,7 +121,7 @@
               </div>
               <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Shipping address</h4>
-                <form id="order-form" action="/placeOrder" method="POST" class="needs-validation" novalidate=""> <!-- form start -->
+                <form id="order-form" class="needs-validation" novalidate=""> <!-- form start -->
                   <div class="row g-3">
                     <div class="col-sm-6">
                       <label for="firstName" class="form-label">First name</label>
@@ -163,8 +164,8 @@
 
                     <div class="col-12">
                       <label for="street" class="form-label">Street Address</label>
-                      <input type="text" class="form-control" id="street" name="street" placeholder="1234 Main St" required=""
-                        fdprocessedid="uhg5fe">
+                      <input type="text" class="form-control" id="street" name="street" placeholder="1234 Main St"
+                        required="" fdprocessedid="uhg5fe">
                       <div class="invalid-feedback">
                         Please enter your street address.
                       </div>
@@ -181,7 +182,8 @@
 
                     <div class="col-md-4">
                       <label for="province" class="form-label">Province</label>
-                      <input type="text" class="form-control" id="province" name="province" placeholder="Ontario" required="">
+                      <input type="text" class="form-control" id="province" name="province" placeholder="Ontario"
+                        required="">
 
                       <div class="invalid-feedback">
                         Please provide a valid state/province.
@@ -190,7 +192,8 @@
 
                     <div class="col-md-3">
                       <label for="country" class="form-label">Country</label>
-                      <input type="text" class="form-control" id="country" name="country" placeholder="Canada" required="">
+                      <input type="text" class="form-control" id="country" name="country" placeholder="Canada"
+                        required="">
                       <div class="invalid-feedback">
                         Country is required.
                       </div>
@@ -234,8 +237,8 @@
                       <div id="card-errors" role="alert"></div>
                     </div>
                     <div class="form-group">
-                      <label for="postal-code">Postal Code</label>
-                      <input type="text" id="postal-code" name="postalCode" placeholder="Enter postal code" required>
+                      <label for="postal">Postal Code</label>
+                      <input type="text" id="postal" name="postal" placeholder="Enter postal code" required>
                     </div>
                   </div>
 
@@ -289,13 +292,23 @@
       }
     });
 
+
+    // Retrieve the total amount from the data attribute
+
     // When user clicks submit:
     document.getElementById('order-form').addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const cardName = document.getElementById('card-name').value;
       const email = document.getElementById('email').value;
-      const postalCode = document.getElementById('postal-code').value;
+      const street = document.getElementById('street').value;
+      const city = document.getElementById('city').value;
+      const province = document.getElementById('province').value;
+      const postal = document.getElementById('postal').value;
+      const totalAmount = parseFloat(document.getElementById('totalPrice').getAttribute('data-total-amount')) * 100; // Convert to cents
+
+      console.log("User entered for street: " + street);
+      console.log("User entered for city: " + city);
 
       // Create the billing details
       const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -305,7 +318,7 @@
           name: cardName,
           email: email,
           address: {
-            postal_code: postalCode
+            postal_code: postal
           }
         }
       });
@@ -315,18 +328,28 @@
         displayError.textContent = error.message;
       }
       else { // if no error, finally, process it.
-        const response = await fetch('/process-payment', {
+        const response = await fetch('/placeOrder2', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ paymentMethodId: paymentMethod.id })
+          body: JSON.stringify({
+            street,
+            city,
+            province,
+            postal,
+            paymentMethodId: paymentMethod.id,
+            amount: totalAmount
+          })
         });
 
         // Check if the response is a redirect
         if (response.redirected) {
           // Redirect the user to the URL specified by the server
-          window.location.href = response.url;
+          alert("Order is confirmed!");
+          setTimeout(function () {
+            window.location.href = response.url;
+          }, 500);
         } else {
           // Handle other types of responses
           // For example, if the response is HTML or text, display it to the user

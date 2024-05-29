@@ -11,7 +11,8 @@ const orderSchema = new mongoose.Schema({
   coordinates: {
     latitude: Number,
     longitude: Number
-  }
+  },
+  amount: Number // added by Sunwoo
 });
 
 module.exports = mongoose.model('Order', orderSchema);
