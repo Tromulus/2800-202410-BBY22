@@ -33,7 +33,7 @@ app.use(session({
     saveUninitialized: false,
     resave: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24
+        maxAge: 1000 * 60 * 60 * 2
     }
 }));
 
@@ -44,7 +44,6 @@ app.use(require('./routes/authRoutes'));
 app.use(require('./routes/resetRoutes'));
 app.use(require('./routes/orderRoutes'));
 app.use(require('./routes/checkoutRoutes.js'));
-app.use(require('./routes/paymentRoutes')); // Added by sunwoo, for payment
 // --------------------------------
 
 app.get('/', (req, res) => {
@@ -55,45 +54,6 @@ app.get('/', (req, res) => {
         res.render('landing');
     }
 }); 
-
-app.get('/login', (req, res) => {
-    res.render('login');
-});
-
-app.post('/submitUser', async (req, res) => {
-    var username = req.body.username;
-    var password = req.body.password;
-
-    const schema = Joi.string().max(20).required();
-    const validationResult = schema.validate(username);
-    if (validationResult.error != null) {
-        console.log(validationResult.error);
-        res.redirect('/login');
-    }
-
-    const user = await User.findOne({username: username});
-
-    if (!user) {
-        console.log("User not found.");
-        res.redirect('/login');
-        return;
-    }
-
-    if (await bcrypt.compare(password, user.password)) {
-        console.log("correct password");
-        req.session.authenticated = true;
-        req.session.username = username;
-        res.redirect('/');
-        return;
-    } else {
-        res.render("invalidLogin");
-        return;
-    }
-});
-
-app.get("/signup", (req, res) => {
-    res.render('signup');
-});
 
 app.get("/surprise", (req, res) => {
     res.render("rotateRobot");
@@ -169,11 +129,6 @@ app.post('/update/:email', async (req, res) => {
         }});
 
     res.redirect('/profile');
-});
-
-app.get('/logout', (req,res) => {
-    req.session.destroy();
-    res.redirect("/");
 });
 
 app.get('*', (req, res) => {

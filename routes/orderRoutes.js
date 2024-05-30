@@ -3,6 +3,7 @@ const { placeOrderController, placeOrderController2, orderDetailController, trac
 const sessionValidation = require('../middlewares/sessionValidation');
 const router = express.Router();
 
+// may not need get /placeOrder, nor post /placeOrder
 router.get('/placeOrder', sessionValidation, (req, res) => res.render('placeOrder'));
 router.post('/placeOrder', sessionValidation, placeOrderController);
 

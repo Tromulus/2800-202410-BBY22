@@ -1,8 +1,7 @@
 const Order = require('../models/order');
 const crypto = require('crypto');
 const axios = require('axios');
-const { createPaymentIntent } = require('../services/paymentServices');
-
+const { createPaymentIntent } = require('../public/js/paymentServices');
 
 async function getCoordinates(address) {
     const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
@@ -22,6 +21,7 @@ async function getCoordinates(address) {
     };
 }
 
+// Backup place-order-controller for backup route
 const placeOrderController = async (req, res, next) => {
     try {
         const { street, city, province, postal } = req.body;
@@ -45,13 +45,10 @@ const placeOrderController = async (req, res, next) => {
     }
 };
 
-// Combined controller for address + payment -- by Sunwoo
+// Combined controller for address + payment
 const placeOrderController2 = async (req, res, next) => {
     try {
         const { street, city, province, postal, paymentMethodId, amount } = req.body;
-
-        console.log("Street: " + street);
-        console.log("City: " + city);
         
         // Create order number and full address
         const fullAddress = `${street}, ${city}`;
@@ -90,7 +87,6 @@ const placeOrderController2 = async (req, res, next) => {
         next(error);
     }
 };
-// Sunwoo's section ends --
 
 const orderDetailController = async (req, res, next) => {
     try {
