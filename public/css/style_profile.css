@@ -8,6 +8,10 @@
   min-width: 300px;
 }
 
+#logBtn {
+  transform: translateY(10px);
+}
+
 #imgDiv {
   flex: 1 1 30%;
   min-width: 200px;
