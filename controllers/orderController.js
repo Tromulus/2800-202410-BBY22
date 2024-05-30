@@ -1,3 +1,5 @@
+//Niko's section (function pages)-Tasks: 1)need to store the data into the our order database 2) in the tracking page, we need to display the distance of order's locaton. 
+
 const Order = require('../models/order');
 const crypto = require('crypto');
 const axios = require('axios');
@@ -24,6 +26,7 @@ async function getCoordinates(address) {
 // Backup place-order-controller for backup route
 const placeOrderController = async (req, res, next) => {
     try {
+       // Create order number and full address
         const { street, city, province, postal } = req.body;
         const fullAddress = `${street}, ${city}`;
         const coordinates = await getCoordinates(fullAddress);
@@ -38,8 +41,11 @@ const placeOrderController = async (req, res, next) => {
             orderNumber: orderNumber,
             date: new Date()
         });
+        // save it 
         await order.save();
+        // redirect to the order detail page
         res.redirect('/orderDetail');
+        // error handling
     } catch (error) {
         next(error);
     }
@@ -88,11 +94,13 @@ const placeOrderController2 = async (req, res, next) => {
     }
 };
 
+// Display order detail page
 const orderDetailController = async (req, res, next) => {
+   // find the order by username to find the session database
     try {
         const orders = await Order.find({ username: req.session.username });
         const cart = req.session.cart ? req.session.cart : null;
-
+    //check if the cart is empty, since the cart is stored in the session, we need to check if the session is empty or not.
         if (!cart || !cart.models || Object.keys(cart.models).length === 0) {
             res.render('orderDetail', { authenticated: req.session.authenticated, orders: orders, cart: null, errorMessage: 'Shopping cart is empty.' });
         } else {
@@ -105,12 +113,14 @@ const orderDetailController = async (req, res, next) => {
 
 const trackingController = async (req, res, next) => {
     try {
+    //find the order by order database 
         const orderNumber = req.params.orderNumber;
         const order = await Order.findOne({ orderNumber: parseInt(orderNumber) });
         if (!order) {
             res.status(404).send('Order not found');
             return;
         }
+    // go to the cart database from the session    
         const cart = req.session.cart ? req.session.cart : null;
         res.render('tracking', { authenticated: req.session.authenticated, order: order, cart: cart, google_maps_api_key: process.env.GOOGLE_MAPS_API_KEY });
     } catch (error) {

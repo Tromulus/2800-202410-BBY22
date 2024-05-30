@@ -1,5 +1,5 @@
 <%- include("templates/header") %>
-    <section class="vh-90 bg-image mb-5"
+    <section id="signupSection" class="vh-90 bg-image mb-5"
         style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
@@ -7,7 +7,8 @@
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-5">
-                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+                                <h2 id="signupHead" class="text-uppercase text-center mb-5">
+                                    Create an account</h2>
                                 <p class="text-center mb-3">Please fill in the information below.</p>
 
                                 <form action="/createUser" method="POST">
@@ -47,31 +48,31 @@
                                         <label class="form-label" for="province">Province*</label>
                                         <fieldset>
                                             <div class="mb-3">
-                                              <select name="province" id="province" class="form-select" aria-label="Default select example" style="width: auto">
-                                                <option selected>--Select one--</option>
-                                                <option value="AB">AB</option>
-                                                <option value="BC">BC</option>
-                                                <option value="MB">MB</option>
-                                                <option value="NB">NB</option>
-                                                <option value="NL">NL</option>
-                                                <option value="NS">NS</option>
-                                                <option value="ON">ON</option>
-                                                <option value="PE">PE</option>
-                                                <option value="QC">QC</option>
-                                                <option value="SK">SK</option>
-                                                <option value="NT">NT</option>
-                                                <option value="NU">NU</option>
-                                                <option value="YT">YT</option>
-                                              </select>
+                                                <select name="province" id="province" class="form-select"
+                                                    aria-label="Default select example" style="width: auto">
+                                                    <option selected>--Select one--</option>
+                                                    <option value="AB">AB</option>
+                                                    <option value="BC">BC</option>
+                                                    <option value="MB">MB</option>
+                                                    <option value="NB">NB</option>
+                                                    <option value="NL">NL</option>
+                                                    <option value="NS">NS</option>
+                                                    <option value="ON">ON</option>
+                                                    <option value="PE">PE</option>
+                                                    <option value="QC">QC</option>
+                                                    <option value="SK">SK</option>
+                                                    <option value="NT">NT</option>
+                                                    <option value="NU">NU</option>
+                                                    <option value="YT">YT</option>
+                                                </select>
                                             </div>
-                                          </fieldset>
+                                        </fieldset>
                                     </div>
 
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="postal">Postal*</label>
-                                        <input type="text" id="postal" name="postal"
-                                            placeholder="Enter a postal code" class="form-control form-control-lg"
-                                            required />
+                                        <input type="text" id="postal" name="postal" placeholder="Enter a postal code"
+                                            class="form-control form-control-lg" required />
                                     </div>
 
                                     <p>Required *</p>
@@ -82,8 +83,9 @@
                                             up</button>
                                     </div>
 
-                                    <p class="text-center text-muted mt-5 mb-0">Already have an account? <a
-                                            href="/login" class="fw-bold text-body link-danger"><u>Login here</u></a>
+                                    <p id="loginLink" class="fw-bold text-center text-muted mt-5 mb-0">Already have an
+                                        account?
+                                        <a href="/login" class="fw-bold link-danger"><u>Login here</u></a>
                                     </p>
 
                                 </form>

@@ -68,7 +68,8 @@
                   <div class="col-sm-9">
                     <fieldset>
                       <div class="mb-3">
-                        <select name="province" id="province" class="form-select" aria-label="Default select example" style="width: auto">
+                        <select name="province" id="province" class="form-select" aria-label="Default select example"
+                          style="width: auto">
                           <option value="AB">AB</option>
                           <option value="BC">BC</option>
                           <option value="MB">MB</option>
@@ -104,8 +105,8 @@
             <div class="col-sm-3">
               <button type="submit" class="btn btn-primary">Save</button>
             </div>
-            <a href="/logout" class="nav-link text-white">
-              <button style="margin-top: 8px;" type="button" class="btn btn-danger">Logout</button>
+            <a href="/logout">
+              <button id="logBtn" type="button" class="btn btn-danger">Logout</button>
             </a>
 
             <div class="row">
@@ -123,13 +124,13 @@
   <script>
     // Get the select element by its ID
     const selectElement = document.getElementById('province');
-    
+
     // Find the option element with value equal to 'something'
     const optionElement = selectElement.querySelector("option[value='<%= user.province %>']");
-    
+
     // If the option element is found, toggle the 'selected' attribute
     if (optionElement) {
-        optionElement.setAttribute('selected', 'selected');
+      optionElement.setAttribute('selected', 'selected');
     }
-    </script>
+  </script>
   <%- include("templates/footer") %>
