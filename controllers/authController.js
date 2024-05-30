@@ -1,5 +1,6 @@
 // importing objects from authServices
 const { signup, login } = require("../public/js/authService");
+const User = require('../models/user');
 const Joi = require("joi");
 
 const signUpController = async (req, res, next) => {
@@ -49,10 +50,19 @@ const signUpController = async (req, res, next) => {
   });
   
   const validationResult = schema.validate({ username, email, address, city, province, postal }, { abortEarly: false });
-  if (validationResult.error != null) {
-  let errorMessages = validationResult.error.details.map(detail => detail.message);
-  res.redirect('/signup?errors=' + encodeURIComponent(JSON.stringify(errorMessages)));
-  return;
+
+  // Collect all error messages
+  let errorMessages = validationResult.error ? validationResult.error.details.map(detail => detail.message) : [];
+
+  // Step 2: Check if the email already exists in the database
+  const existingUser = await User.findOne({ email: email });
+  if (existingUser) {
+    errorMessages.push("Email already exists. Enter a new email.");
+  }
+
+  // If there are any errors, redirect with the error messages
+  if (errorMessages.length > 0) {
+    return res.redirect('/signup?errors=' + encodeURIComponent(JSON.stringify(errorMessages)));
   }
 
     await signup(req.body);

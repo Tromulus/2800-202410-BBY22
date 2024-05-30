@@ -61,14 +61,15 @@ app.get("/surprise", (req, res) => {
 
 app.get('/profile', async (req, res) => {
     if (req.session.authenticated) {
-        // console.log("in profile");
         const result = await User.findOne({ username: req.session.username });
         // console.log(result);
-
+        
         if (!result) {
             res.send("User not found");
             return;
         }
+
+        console.log(result.email);
 
         res.render("profile", {user: result});
     } else {
@@ -82,6 +83,12 @@ app.post('/update/:email', async (req, res) => {
     var city = req.body.city;
     var province = req.body.province;
     var postal = req.body.postal;
+
+    console.log("email: " + email);
+    console.log("address: " + address);
+    console.log("city: " + city);
+    console.log("province: " + province);
+    console.log("postal: " + postal);
 
     const schema = Joi.object({
         email: Joi.string()
@@ -115,9 +122,10 @@ app.post('/update/:email', async (req, res) => {
 
     const validationResult = schema.validate({ email, address, city, province, postal }, { abortEarly: false });
     if (validationResult.error != null) {
-    let errorMessages = validationResult.error.details.map(detail => detail.message);
-    res.redirect('/profile?errors=' + encodeURIComponent(JSON.stringify(errorMessages)));
-    return;
+        console.log("There seems to be an error.");
+        let errorMessages = validationResult.error.details.map(detail => detail.message);
+        res.redirect('/profile?errors=' + encodeURIComponent(JSON.stringify(errorMessages)));
+        return;
     }
 
     await User.updateOne({ email: email }, 
