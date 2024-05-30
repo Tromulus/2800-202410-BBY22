@@ -5,21 +5,6 @@ const User = require("../../models/user");
 const signup = async (data) => {
   const { username, email, password, address, city, province, postal } = data;
 
-  const schema = Joi.object({
-      username: Joi.string().alphanum().max(20).required(),
-      email: Joi.string().email(),
-      password: Joi.string().max(20).required(),
-      address: Joi.string().required(),
-      city: Joi.string().max(20).required(),
-      province: Joi.string().max(20).required(),
-      postal: Joi.string().max(20).required(),
-  });
-
-  const validationResult = schema.validate({ username, email, password, address, city, province, postal });
-  if (validationResult.error) {
-      throw new Error(validationResult.error);
-  }
-
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
     const newUser = new User({

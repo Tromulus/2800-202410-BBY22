@@ -103,7 +103,7 @@
     text-align: right;
     font-weight: bold;
 }
-@media (max-width: 430px) {
+@media (max-width: 440px) {
     .container {
         width: 95%;
         padding: 10px;
@@ -128,5 +128,20 @@
 
     .cart-info img {
         width: 80px; 
+    }
+
+    .cart-info table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .cart-info th, .cart-info td {
+        display: inline-block;
+        text-align: left;
+    }
+
+    .cart-info th {
+        text-align: left;
     }
 }

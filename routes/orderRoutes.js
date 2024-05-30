@@ -6,7 +6,7 @@ const router = express.Router();
 
 // may not need get /placeOrder, nor post /placeOrder
 router.get('/placeOrder', sessionValidation, (req, res) => res.render('placeOrder'));
-// backup plan for our pleacing order page.
+// backup plan for our placing order page.
 router.post('/placeOrder', sessionValidation, placeOrderController);
 
 // Created for testing combined controller (address + payment)

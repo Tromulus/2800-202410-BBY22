@@ -9,6 +9,11 @@ svg {
     fill: currentColor;
 }
 
+#userGreet {
+  text-align: center;
+  margin-top: 25px;
+}
+
 #companyCards {
     display: flex;
     flex-wrap: wrap;
@@ -29,4 +34,12 @@ svg {
   .modal img {
     width: 80%;
     height: 100%;
+  }
+
+  .mainContainer {
+    margin-bottom: 70px;
+  }
+
+  @media (max-width: 440px) {
+
   }

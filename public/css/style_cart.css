@@ -1,0 +1,28 @@
+.cartForm {
+    width: 45px !important;
+}
+
+@media (min-width: 768px) {
+    .quantityContainer {
+        justify-content: center;
+    }
+}
+
+
+@media (max-width: 440px) {
+    #cartContainer {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    .robotImg {
+        width: 70% !important;
+        margin: auto;
+    }
+
+    .mb-4 .mb-lg-0 {
+        margin-bottom: 0px !important;
+    }
+}

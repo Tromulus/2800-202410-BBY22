@@ -43,6 +43,7 @@ body {
     justify-content: flex-start; 
     align-items: center;
     margin: 20px 0;
+    overflow-x: scroll; /* sunwoo added to prevent page overflow */
 }
 
 .order-images {
@@ -83,7 +84,7 @@ body {
     /* color: green; */
 }
 
-@media (max-width: 430px) {
+@media (max-width: 440px) {
     /* .order-container {
         width: 95%;
         padding: 10px;

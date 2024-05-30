@@ -1,4 +1,3 @@
-// authController.js
 const { resetPassword, passwordReset, User } = require('../public/js/resetPassword');
 
 const submitForgotPassword = async (req, res) => {

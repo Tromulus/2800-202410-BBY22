@@ -12,7 +12,6 @@ router.post('/submitUser', loginController);
 router.get('/logout', logoutController);
 
 router.get('/index', (req, res) => {
-    // Check if the user is authenticated (logged in)
     if (req.session.authenticated) {
         // Pass the username to the index.ejs template
         res.render('index', { username: req.session.username });
