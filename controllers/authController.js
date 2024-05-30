@@ -7,6 +7,7 @@ const signUpController = async (req, res, next) => {
   try {
     const { username, email, password, address, city, province, postal } = req.body;
 
+    // validates all user input
     const schema = Joi.object({
       username: Joi.string()
       .alphanum()
@@ -54,7 +55,7 @@ const signUpController = async (req, res, next) => {
   // Collect all error messages
   let errorMessages = validationResult.error ? validationResult.error.details.map(detail => detail.message) : [];
 
-  // Step 2: Check if the email already exists in the database
+  // Check if the email already exists in the database
   const existingUser = await User.findOne({ email: email });
   if (existingUser) {
     errorMessages.push("Email already exists. Enter a new email.");

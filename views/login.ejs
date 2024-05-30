@@ -18,7 +18,7 @@
                   <p class="text-center fw-bold mx-3 mb-0">Login</p>
                 </div>
       
-                <!-- Username input -->
+                <%# Username %>
                 <div data-mdb-input-init class="form-outline mb-4">
                     <label class="form-label" for="username">Username*</label>
                     <input type="text" id="username" name="username" class="form-control form-control-lg"
@@ -26,20 +26,21 @@
 
                 </div>
       
-                <!-- Password input -->
+                <%# Password %>
                 <div data-mdb-input-init class="form-outline mb-3">
                     <label class="form-label" for="password">Password*</label>
                     <input type="password" id="password" name="password" class="form-control form-control-lg"
                     placeholder="Enter password" required/>
 
                 </div>
-      
+                
+                <%# Forgot password %>
                 <div class="d-flex justify-content-between align-items-center">
                   <p>Required *</p>
-
                   <a href="/loginin" class="text-body">Forgot password?</a>
                 </div>
-      
+                
+                <%# Login button and sign up redirect link %>
                 <div class="text-center text-lg-start mt-4 pt-2">
                   <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
