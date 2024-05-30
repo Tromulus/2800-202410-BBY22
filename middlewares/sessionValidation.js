@@ -1,3 +1,4 @@
+//niko wang - sessionValidation middleware will be used in some routes.
 function isValidSession(req) {
     return req.session && req.session.authenticated;
 }
