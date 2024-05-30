@@ -1,3 +1,5 @@
+//The code below takes Three.js website Documentation as a reference.
+
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -26,7 +28,7 @@ loader.load('/img/Robot.glb', function(glb){
     console.log((xhr.loaded / xhr.total * 100) + "% loaded");
 }, function(error) {
     console.log('error');
-})
+});
 
 const light=new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2,6,6);
@@ -35,7 +37,7 @@ scene.add(light);
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
-}
+};
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1, 100);
 camera.position.set(0,1,3);
@@ -43,7 +45,7 @@ scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
-})
+});
 
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -65,10 +67,10 @@ window.addEventListener('resize', () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-let moveUp = true;
-const speed = 0.003; // Adjust the speed as needed
-const maxPosition = 2; // Maximum y position
-const minPosition = -2; // Minimum y position
+//let moveUp = true;
+//const speed = 0.003; // Adjust the speed as needed
+//const maxPosition = 2; // Maximum y position
+//const minPosition = -2; // Minimum y position
 
 function animate() {
     requestAnimationFrame(animate);
