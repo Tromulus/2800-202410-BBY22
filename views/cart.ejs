@@ -1,4 +1,5 @@
 <%- include("templates/header") %>
+<link rel="stylesheet" href="/css/style_cart.css">
   <section class="h-100 gradient-custom">
     <div id="cartContainer" class="container py-5">
       <div class="row d-flex justify-content-center my-4">
@@ -73,7 +74,7 @@
     }
   </style>
 
-  <!-- Modal -->
+  <!-- Modal for order confirmation -->
   <div class="modal fade" id="checkoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -124,7 +125,7 @@
                   <div class="row g-3">
                     <div class="col-sm-6">
                       <label for="firstName" class="form-label">First name*</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value="" required=""
+                      <input type="text" class="form-control" id="firstName" placeholder value required
                         fdprocessedid="3yzl0r">
                       <div class="invalid-feedback">
                         Valid first name is required.
@@ -133,7 +134,7 @@
 
                     <div class="col-sm-6">
                       <label for="lastName" class="form-label">Last name*</label>
-                      <input type="text" class="form-control" id="lastName" placeholder="" value="" required=""
+                      <input type="text" class="form-control" id="lastName" placeholder value required
                         fdprocessedid="frnvph">
                       <div class="invalid-feedback">
                         Valid last name is required.
@@ -217,7 +218,7 @@
                     <div class="form-group">
                       <label for="card-element">Credit or debit card*</label>
                       <div id="card-element"></div>
-                      <div id="card-errors" role="alert"></div>
+                      <div id="card-errors" role="alert" style="color: red; font-weight: 400"></div>
                     </div>
                     <div class="form-group">
                       <label for="postal">Postal Code*</label>
@@ -239,108 +240,6 @@
   </div>
 
   <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    const stripe = Stripe('pk_test_51PJMer00K9SfgrcVbWAtcleHZcyIHsnEZmyKZvWUTSYQdby0BDZAjYkfRqqUQxyJ8kAj7GkNzC02DMc54GdvMYJk00QVvA4ovV'); // Replace with your actual test publishable key
-
-    const elements = stripe.elements();
-
-    // This is the card that users see on the page
-    const card = elements.create('card', {
-      style: {
-        base: {
-          color: '#32325d',
-          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-          fontSmoothing: 'antialiased',
-          fontSize: '16px',
-          '::placeholder': {
-            color: '#aab7c4'
-          }
-        },
-        invalid: {
-          color: '#fa755a',
-          iconColor: '#fa755a'
-        }
-      },
-      hidePostalCode: true // Hide the default postal code field provided by Stripe
-    });
-    card.mount('#card-element');
-
-    // This handles the error based on the changes to the values of the card.
-    card.on('change', (event) => {
-      const displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
-
-
-    // Retrieve the total amount from the data attribute
-
-    // When user clicks submit:
-    document.getElementById('order-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const cardName = document.getElementById('card-name').value;
-      const email = document.getElementById('email').value;
-      const street = document.getElementById('street').value;
-      const city = document.getElementById('city').value;
-      const province = document.getElementById('province').value;
-      const postal = document.getElementById('postal').value;
-      const totalAmount = parseFloat(document.getElementById('totalPrice').getAttribute('data-total-amount')) * 100; // Convert to cents
-
-      console.log("User entered for street: " + street);
-      console.log("User entered for city: " + city);
-
-      // Create the billing details
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: card,
-        billing_details: {
-          name: cardName,
-          email: email,
-          address: {
-            postal_code: postal
-          }
-        }
-      });
-
-      if (error) {
-        const displayError = document.getElementById('card-errors');
-        displayError.textContent = error.message;
-      }
-      else { // if no error, finally, process it.
-        const response = await fetch('/placeOrder2', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            street,
-            city,
-            province,
-            postal,
-            paymentMethodId: paymentMethod.id,
-            amount: totalAmount
-          })
-        });
-
-        // Check if the response is a redirect
-        if (response.redirected) {
-          // Redirect the user to the URL specified by the server
-          alert("Order is confirmed!");
-          setTimeout(function () {
-            window.location.href = response.url;
-          }, 500);
-        } else {
-          // Handle other types of responses
-          // For example, if the response is HTML or text, display it to the user
-          const text = await response.text();
-          console.log('Response:', text);
-        }
-      }
-    });
-  </script>
+  <script src="../js/confirmOrder.js"></script>
 
   <%- include("templates/footer") %>

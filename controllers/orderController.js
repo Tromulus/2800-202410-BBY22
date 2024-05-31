@@ -54,8 +54,13 @@ const placeOrderController = async (req, res, next) => {
 // Combined controller for address + payment
 const placeOrderController2 = async (req, res, next) => {
     try {
-        const { street, city, province, postal, paymentMethodId, amount } = req.body;
-        
+        const { firstName, lastName, street, city, province, country, cardName, postal, paymentMethodId, amount } = req.body;
+
+        // Error cases
+        if (!firstName || !lastName || !street || !city || !province || !country || !cardName || !postal) {
+            return res.status(400).json({ "message": "Please properly fill out required sections." });
+        }
+
         // Create order number and full address
         const fullAddress = `${street}, ${city}`;
         const coordinates = await getCoordinates(fullAddress);
@@ -87,10 +92,11 @@ const placeOrderController2 = async (req, res, next) => {
             const redirectURL = '/tracking/' + orderNumber;
             res.redirect(redirectURL);
         } else {
-            res.status(400).json({ error: 'Payment failed or requires additional action.' });
+            res.status(400).json({ "message": 'Payment failed or requires additional action.' });
         }
     } catch (error) {
-        next(error);
+        // next(error);
+        res.status(400).json({"message": "Oh no, there's an error with payment."});
     }
 };
 

@@ -9,7 +9,7 @@ router.get('/placeOrder', sessionValidation, (req, res) => res.render('placeOrde
 // backup plan for our placing order page.
 router.post('/placeOrder', sessionValidation, placeOrderController);
 
-// Created for testing combined controller (address + payment)
+// All-in-one placing order (address + payment)
 router.post('/placeOrder2', sessionValidation, placeOrderController2);
 
 router.get('/orderDetail', sessionValidation, orderDetailController);
