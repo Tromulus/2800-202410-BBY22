@@ -96,7 +96,7 @@ const placeOrderController2 = async (req, res, next) => {
         }
     } catch (error) {
         // next(error);
-        res.status(400).json({"message": "Oh no, there's an error with payment."});
+        res.status(400).json({"message": "Oh no, there's an error with payment or the address."});
     }
 };
 
