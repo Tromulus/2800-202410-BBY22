@@ -12,6 +12,124 @@ Our app offers an AI robot rental and delivery service with high efficiency and 
 
 ## Listing of File Contents of folder
 
+│   .gitignore
+│   about.html
+│   index.js
+│   package-lock.json
+│   package.json
+│   README.md
+│
+├───controllers
+│       authController.js
+│       orderController.js
+│       profileController.js
+│       resetController.js
+│
+├───middlewares
+│       sessionValidation.js
+│
+├───models
+│       cart.js
+│       order.js
+│       robot.js
+│       token.js
+│       user.js
+│
+├───public
+│   ├───css
+│   │       style.css
+│   │       style_cart.css
+│   │       style_login.css
+│   │       style_order.css
+│   │       style_placeorder.css
+│   │       style_profile.css
+│   │       style_rotateRobot.css
+│   │       style_signup.css
+│   │       style_tracking.css
+│   │
+│   ├───img
+│   │   │   404 Error.mp4
+│   │   │   favicon.ico
+│   │   │   HSR-3_speech.png
+│   │   │   Robot.glb
+│   │   │   Seraph AI.png
+│   │   │   SeraphAI.png
+│   │   │   Seraph_AI_Banner_Email.png
+│   │   │   Surprise.mp3
+│   │   │
+│   │   ├───banners
+│   │   │       Boston Dynamics Banner.png
+│   │   │       Hahne Kedar Banner.png
+│   │   │       iRobot Banner.png
+│   │   │       NovaGen Banner.png
+│   │   │       Seraph AI Banner.png
+│   │   │       Toyota Banner.png
+│   │   │
+│   │   ├───icons
+│   │   │       cart-fill.svg
+│   │   │       cart.svg
+│   │   │       house-fill.svg
+│   │   │       house.svg
+│   │   │       person-circle.svg
+│   │   │       receipt.svg
+│   │   │       robot.svg
+│   │   │
+│   │   └───robots
+│   │           Aegis VII.png
+│   │           Atlas V.png
+│   │           HSR-3.png
+│   │           LifeMate.png
+│   │           NGX-2000.png
+│   │           Tempest.png
+│   │
+│   └───js
+│           addRobots.js
+│           authService.js
+│           confirmOrder.js
+│           databaseConnection.js
+│           floating.js
+│           paymentServices.js
+│           resetPassword.js
+│           robots.js
+│           rotateRobot.js
+│           sendEmail.js
+│           utils.js
+│
+├───routes
+│       authRoutes.js
+│       checkoutRoutes.js
+│       orderRoutes.js
+│       profileRoutes.js
+│       resetRoutes.js
+│
+└───views
+    │   404.ejs
+    │   cart.ejs
+    │   checkoutForm.ejs
+    │   checkYourEmail.ejs
+    │   invalidLogin.ejs
+    │   landing.ejs
+    │   login.ejs
+    │   loginError.ejs
+    │   newPasswordForm.ejs
+    │   orderDetail.ejs
+    │   placeOrder.ejs
+    │   profile.ejs
+    │   resetPasswordEmail.ejs
+    │   resetPasswordToken.ejs
+    │   resetSucceed.ejs
+    │   resetSucceedEmail.ejs
+    │   robots.ejs
+    │   rotateRobot.ejs
+    │   signup.ejs
+    │   tracking.ejs
+    │
+    └───templates
+            checkoutItem.ejs
+            companycard.ejs
+            footer.ejs
+            header.ejs
+
 ## How to install or run the project
 ##### 1. What does developer need to install?
 - Languages: HTML, CSS, JavaScript, Node.js
@@ -45,21 +163,21 @@ Our app offers an AI robot rental and delivery service with high efficiency and 
 ##### 6. Testing plan:
 https://docs.google.com/spreadsheets/d/1DQAwADoGYrqN48Sw9kn3tg88N2nCfc8BB3DWzPYqem4/edit?usp=sharing 
 
-##### 7. separate plaintext file called “password.txt” that contains any admin/user/server login IDs and passwords.
+##### 7. Separate plaintext file called “password.txt” that contains any admin/user/server login IDs and passwords included in dropbox.
 
 ## How to use the product (Features)
-##### - Sign Up as a new user
+##### Sign Up as a new user
 1. Click the “Sign-up” button, upon loading the landing page
 2. Enter the required information
 3. Click “Sign up”
 
-##### - Edit Profile
+##### Edit Profile
 1. Click the “Login” button and log in using your personal username and password
 2. Click the profile button on the top right corner of the page
 3. View and/or edit your profile
 4. Click “Save” to confirm changes
 
-##### - Reset Password
+##### Reset Password
 1. Click the “Login” button, upon loading the landing page
 2. Click “Forgot password?” located under the login fields
 3. Enter the email used when creating the account
@@ -70,21 +188,21 @@ https://docs.google.com/spreadsheets/d/1DQAwADoGYrqN48Sw9kn3tg88N2nCfc8BB3DWzPYq
 8. Enter new, desired password
 9. Click the “Submit New Password” button to confirm your new password
 
-##### - Robot suggestion
+##### Robot suggestion
 1. click on the chatbot icon located at the bottom right corner when browsing the robot list page
 2. Clicking start the chat button, the chatbot presents a series of questions designed to determine the user's needs and preferences regarding the robot.
 3. Based on the answers provided, the chatbot analyzes the user’s needs and suggests the most suitable robot.
 4. If you realize that you've made a mistake in your responses or wishes to change answers, select the 'Go Back' option.
 5. Alongside the recommended robot, clicking 'Add to Your Cart' will add the recommended robot directly to your shopping cart.
 
-##### - Place an Order
+##### Place an Order
 1. Click “Rent now” to select the desired robot to order
 2. Click “View Cart”
 3. Click “Go to checkout” after visually confirming your cart
 4. Enter required payment/shipping details
 5. Receive confirmation of successful order
 
-##### - Track delivery: 
+##### Track delivery: 
 1. Please select the order you want to track in the order detail page.
 2. Please click the “track order” button to start tracking, and it will redirect to the tracking page.
 3. Please allow the browser to capture the current location (we are using the browser‘s location as order’s location, and we fetch that data in 2 mins each time), and then you will see a map view. There is a route between the browser‘s current location and shipping address. If the distance is less than 100m , the delivery status will be marked as the delivered.
