@@ -1,19 +1,23 @@
+<!--tracking page with the specific order - niko -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Tracking</title>
     <link rel="stylesheet" type="text/css" href="/css/style_tracking.css">
     <script>
-        var map, directionsService, directionsRenderer, startMarker, endMarker;
+    // variables for this script
+    var map, directionsService, directionsRenderer, startMarker, endMarker;
 
+    // function to initialize the map
         function initMap() {
+            // destination coordinates from the order datbase
             var destination = { lat: <%= order.coordinates.latitude %>, lng: <%= order.coordinates.longitude %> };
-
+            
             map = new google.maps.Map(document.getElementById('map'), {
                 center: destination,
                 zoom: 12
             });
-
+            // render the route on the map
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer({ suppressMarkers: true });
             directionsRenderer.setMap(map);
@@ -23,7 +27,7 @@
             // fetch and draw route every 2 minutes
             setInterval(fetchAndDrawRoute, 2 * 60 * 1000);
         }
-
+        // function to fetch and draw the route
         function fetchAndDrawRoute() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -40,16 +44,17 @@
                 alert("Geolocation is not supported by this browser.");
             }
         }
-
+        //  function to draw the route
         function drawRoute(currentLocation) {
             var destination = { lat: <%= order.coordinates.latitude %>, lng: <%= order.coordinates.longitude %> };
 
+            //get the route from the current location to the destination
             var request = {
                 origin: currentLocation,
                 destination: destination,
                 travelMode: 'DRIVING'
             };
-
+            //  function to draw the route get reference from google map api
             directionsService.route(request, function (result, status) {
                 if (status == 'OK') {
                     directionsRenderer.setDirections(result);
@@ -78,7 +83,7 @@
                 }
             });
         }
-
+        // function to update the delivery status
         function updateDeliveryStatus(currentLocation) {
             var destination = { lat: <%= order.coordinates.latitude %>, lng: <%= order.coordinates.longitude %> };
 
@@ -129,11 +134,46 @@
     <div class="container">
         <div class="order-map-container">
             <div class="order-info">
-                <h1>Order #<%= order.orderNumber %></h1>
+                <h1>Order Number: <%= order.orderNumber %></h1>
                 <p>Date: <%= new Date(order.date).toLocaleDateString() %></p>
                 <p>Name: <%= order.username %></p>
                 <p>Address: <%= order.address %></p>
-                <p id="deliveryStatus">Delivery Status: In Transit</p>
+                <p id="deliveryStatus"> Delivery Status: In Transit</p>
+                <div class="cart-info">
+                    <h2>Order Information</h2>
+                    <% if (cart && cart.models) { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <!--get the data from the cart schema -->
+                            <tbody>
+                                <% for (let model in cart.models) { %>
+                                    <tr>
+                                        <td><img src="/img/robots/<%= cart.models[model].model %>.png" alt="<%= cart.models[model].model %>" class="robot-img"></td>
+                                        <td><%= cart.models[model].model %></td>
+                                        <td>$<%= cart.models[model].price %></td>
+                                        <td><%= cart.models[model].qty %></td>
+                                        <td>$<%= (cart.models[model].price * cart.models[model].qty).toFixed(2) %></td>
+                                    </tr>
+                                <% } %>
+                                <tr>
+                                    <td colspan="4" class="total-text">Total Price:</td>
+                                    <td class="total-price">$<%= (cart.totalPrice + 4.99).toFixed(2) %></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <p class="total">Total Quantity: <%= cart.totalQty %></p> -->
+                    <% } else { %>
+                        <p>Your cart is empty.</p>
+                    <% } %>
+                </div>
             </div>
             <div class="map-container">
                 <div id="map"></div>

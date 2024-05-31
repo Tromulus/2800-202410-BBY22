@@ -1,4 +1,5 @@
-
+//The code below takes https://www.youtube.com/watch?v=UOmiMn2gtZk as a reference, 
+//and make changements based on the needs of our functionality.
 
 function Gravity(id) {
     var that = this;

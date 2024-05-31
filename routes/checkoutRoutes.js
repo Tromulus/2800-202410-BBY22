@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Cart = require('../models/cart');
 const Robot = require('../models/robot');
+const sessionValidation = require('../middlewares/sessionValidation');
 
-router.get('/robots', (req, res) => res.render('robots'));
+router.get('/robots', sessionValidation, (req, res) => res.render('robots', { username: req.session.username }));
 
-router.get('/add-to-cart/:id', async (req, res) => {
+router.get('/add-to-cart/:id', sessionValidation, async (req, res) => {
     var roboName = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : { items: {} });
 
@@ -17,9 +18,9 @@ router.get('/add-to-cart/:id', async (req, res) => {
     res.redirect('/robots');
 });
 
-router.get('/cart', async (req, res) => {
+router.get('/cart', sessionValidation, async (req, res) => {
 
-    const cart = req.session.cart;
+    const cart = new Cart(req.session.cart ? req.session.cart : { items: {} });
     
     if (cart) {
         const cartInstance = new Cart(cart);
@@ -39,7 +40,8 @@ router.get('/cart', async (req, res) => {
         };
         res.render('cart', { cart, cartDetails });
     } else {
-        res.redirect('/robots');
+        const cartDetails = [];
+        res.render('cart', { cart, cartDetails });
     }
 });
 

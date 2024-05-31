@@ -1,6 +1,7 @@
 <%- include("templates/header") %>
+<link rel="stylesheet" href="/css/style_cart.css">
   <section class="h-100 gradient-custom">
-    <div class="container py-5">
+    <div id="cartContainer" class="container py-5">
       <div class="row d-flex justify-content-center my-4">
         <div class="col-md-8">
           <div class="card mb-4">
@@ -73,7 +74,7 @@
     }
   </style>
 
-  <!-- Modal -->
+  <!-- Modal for order confirmation -->
   <div class="modal fade" id="checkoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -86,7 +87,6 @@
           <main>
             <div class="py-5 text-center">
               <h2>Final Step</h2>
-              <p class="lead">Below is an example form built entirely with Bootstr...</p>
             </div>
 
             <div class="row g-5">
@@ -101,7 +101,7 @@
                       <h6 class="my-0">Rental</h6>
                       <small class="text-body-secondary">Brief description</small>
                     </div>
-                    <span class="text-body-secondary">$<%= cart.totalPrice %></span>
+                    <span class="text-body-secondary">$<%= cart.totalPrice.toFixed(2) %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
@@ -112,7 +112,8 @@
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Total (CAD)</span>
-                    <strong>$<%= (cart.totalPrice + 4.99).toFixed(2) %></strong>
+                    <strong id="totalPrice" data-total-amount="<%= (cart.totalPrice + 4.99).toFixed(2) %>">$<%=
+                        (cart.totalPrice + 4.99).toFixed(2) %></strong>
                   </li>
                 </ul>
 
@@ -120,11 +121,11 @@
               </div>
               <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Shipping address</h4>
-                <form id="order-form" action="/placeOrder" method="POST" class="needs-validation" novalidate="">
+                <form id="order-form" class="needs-validation" novalidate=""> <!-- form start -->
                   <div class="row g-3">
                     <div class="col-sm-6">
-                      <label for="firstName" class="form-label">First name</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value="" required=""
+                      <label for="firstName" class="form-label">First name*</label>
+                      <input type="text" class="form-control" id="firstName" placeholder value required
                         fdprocessedid="3yzl0r">
                       <div class="invalid-feedback">
                         Valid first name is required.
@@ -132,8 +133,8 @@
                     </div>
 
                     <div class="col-sm-6">
-                      <label for="lastName" class="form-label">Last name</label>
-                      <input type="text" class="form-control" id="lastName" placeholder="" value="" required=""
+                      <label for="lastName" class="form-label">Last name*</label>
+                      <input type="text" class="form-control" id="lastName" placeholder value required
                         fdprocessedid="frnvph">
                       <div class="invalid-feedback">
                         Valid last name is required.
@@ -141,20 +142,7 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="username" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text">@</span>
-                        <input type="text" class="form-control" id="username" placeholder="Username" required=""
-                          fdprocessedid="hnc766">
-                        <div class="invalid-feedback">
-                          Your username is required.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="email" class="form-label">Email <span
-                          class="text-body-secondary">(Optional)</span></label>
+                      <label for="email" class="form-label">Email*</label>
                       <input type="email" class="form-control" id="email" placeholder="you@example.com"
                         fdprocessedid="kzwua">
                       <div class="invalid-feedback">
@@ -163,16 +151,16 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="address" class="form-label">Street Address</label>
-                      <input type="text" class="form-control" id="street" name="street" placeholder="1234 Main St" required=""
-                        fdprocessedid="uhg5fe">
+                      <label for="street" class="form-label">Street Address*</label>
+                      <input type="text" class="form-control" id="street" name="street" placeholder="1234 Main St"
+                        required="" fdprocessedid="uhg5fe">
                       <div class="invalid-feedback">
                         Please enter your street address.
                       </div>
                     </div>
 
                     <div class="col-md-5">
-                      <label for="country" class="form-label">City</label>
+                      <label for="city" class="form-label">City*</label>
                       <input type="text" class="form-control" id="city" name="city" placeholder="Toronto" required="">
 
                       <div class="invalid-feedback">
@@ -181,8 +169,9 @@
                     </div>
 
                     <div class="col-md-4">
-                      <label for="state" class="form-label">State</label>
-                      <input type="text" class="form-control" id="state" name="state" placeholder="Ontario" required="">
+                      <label for="province" class="form-label">Province*</label>
+                      <input type="text" class="form-control" id="province" name="province" placeholder="Ontario"
+                        required="">
 
                       <div class="invalid-feedback">
                         Please provide a valid state/province.
@@ -190,8 +179,9 @@
                     </div>
 
                     <div class="col-md-3">
-                      <label for="zip" class="form-label">Country</label>
-                      <input type="text" class="form-control" id="country" name="country" placeholder="Canada" required="">
+                      <label for="country" class="form-label">Country*</label>
+                      <input type="text" class="form-control" id="country" name="country" placeholder="Canada"
+                        required="">
                       <div class="invalid-feedback">
                         Country is required.
                       </div>
@@ -212,15 +202,11 @@
                       <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
                       <label class="form-check-label" for="debit">Debit card</label>
                     </div>
-                    <div class="form-check">
-                      <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
-                      <label class="form-check-label" for="paypal">PayPal</label>
-                    </div>
                   </div>
 
                   <div class="row gy-3">
                     <div class="col-md-6">
-                      <label for="cc-name" class="form-label">Name on card</label>
+                      <label for="card-name" class="form-label">Name on card*</label>
                       <input type="text" class="form-control" id="card-name" placeholder="" required=""
                         fdprocessedid="0zn2dq">
                       <small class="text-body-secondary">Full name as displayed on card</small>
@@ -229,37 +215,14 @@
                       </div>
                     </div>
 
-                    <!-- <div class="col-md-6">
-                    <label for="cc-number" class="form-label">Credit card number</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required="" fdprocessedid="3zf7oi">
-                    <div class="invalid-feedback">
-                      Credit card number is required
-                    </div>
-                  </div>
-      
-                  <div class="col-md-3">
-                    <label for="cc-expiration" class="form-label">Expiration</label>
-                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required="" fdprocessedid="gd205z">
-                    <div class="invalid-feedback">
-                      Expiration date required
-                    </div>
-                  </div>
-      
-                  <div class="col-md-3">
-                    <label for="cc-cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required="" fdprocessedid="mjignu">
-                    <div class="invalid-feedback">
-                      Security code required
-                    </div>
-                  </div> -->
                     <div class="form-group">
-                      <label for="card-element">Credit or debit card</label>
+                      <label for="card-element">Credit or debit card*</label>
                       <div id="card-element"></div>
-                      <div id="card-errors" role="alert"></div>
+                      <div id="card-errors" role="alert" style="color: red; font-weight: 400"></div>
                     </div>
                     <div class="form-group">
-                      <label for="postal-code">Postal Code</label>
-                      <input type="text" id="postal-code" name="postalCode" placeholder="Enter postal code" required>
+                      <label for="postal">Postal Code*</label>
+                      <input type="text" id="postal" name="postal" placeholder="Enter postal code" required>
                     </div>
                   </div>
 
@@ -277,109 +240,6 @@
   </div>
 
   <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    const stripe = Stripe('pk_test_51PJMer00K9SfgrcVbWAtcleHZcyIHsnEZmyKZvWUTSYQdby0BDZAjYkfRqqUQxyJ8kAj7GkNzC02DMc54GdvMYJk00QVvA4ovV'); // Replace with your actual test publishable key
-
-    const elements = stripe.elements();
-    const card = elements.create('card', {
-      style: {
-        base: {
-          color: '#32325d',
-          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-          fontSmoothing: 'antialiased',
-          fontSize: '16px',
-          '::placeholder': {
-            color: '#aab7c4'
-          }
-        },
-        invalid: {
-          color: '#fa755a',
-          iconColor: '#fa755a'
-        }
-      },
-      hidePostalCode: true // Hide the default postal code field provided by Stripe
-    });
-    card.mount('#card-element');
-
-    card.on('change', (event) => {
-      const displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
-
-    document.getElementById('order-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      // const form = document.getElementById('order-form');
-      // const formData = new FormData(form);
-
-      // // First POST request to /placeOrder
-      // const response1 = await fetch('/placeOrder', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-
-      // if (!response1.ok) {
-      //   console.error('Error with first POST request');
-      //   return;
-      // }
-
-      // // Second POST request to another endpoint
-      // const response2 = await fetch('/process-payment', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-
-      // if (!response2.ok) {
-      //   console.error('Error with second POST request');
-      //   return;
-      // }
-
-      const cardName = document.getElementById('card-name').value;
-      const email = document.getElementById('email').value;
-      const postalCode = document.getElementById('postal-code').value;
-
-
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: card,
-        billing_details: {
-          name: cardName,
-          email: email,
-          address: {
-            postal_code: postalCode
-          }
-        }
-      });
-
-      if (error) {
-        const displayError = document.getElementById('card-errors');
-        displayError.textContent = error.message;
-      }
-      else {
-        const response = await fetch('/process-payment', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ paymentMethodId: paymentMethod.id })
-        });
-
-        // Check if the response is a redirect
-        if (response.redirected) {
-          // Redirect the user to the URL specified by the server
-          window.location.href = response.url;
-        } else {
-          // Handle other types of responses
-          // For example, if the response is HTML or text, display it to the user
-          const text = await response.text();
-          console.log('Response:', text);
-        }
-      }
-    });
-  </script>
+  <script src="../js/confirmOrder.js"></script>
 
   <%- include("templates/footer") %>

@@ -1,10 +1,9 @@
-// authRoutes.js
 const express = require('express');
 const router = express.Router();
 const resetController = require('../controllers/resetController');
 
 router.get('/loginin', (req, res) => {
-    res.render('testGenerateToken');
+    res.render('resetPasswordToken');
 });
 
 router.post('/submit-forgot-password', resetController.submitForgotPassword);

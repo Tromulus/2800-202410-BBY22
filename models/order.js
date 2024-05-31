@@ -1,3 +1,4 @@
+//order schema niko wang
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
@@ -11,7 +12,8 @@ const orderSchema = new mongoose.Schema({
   coordinates: {
     latitude: Number,
     longitude: Number
-  }
+  },
+  amount: Number
 });
 
 module.exports = mongoose.model('Order', orderSchema);

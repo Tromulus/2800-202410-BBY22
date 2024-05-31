@@ -2,20 +2,9 @@ const User = require("../../models/user.js");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sendEmail = require("./sendEmail.js").sendEmail;
-// const { mongoose } = require("./databaseConnection.js")
-// const User = mongoose.model('users', new mongoose.Schema({
-//   username: String,
-//   email: String,
-//   password: String,
-//   address: String,
-//   city: String,
-//   province: String,
-//   postal: String,
-// }));  
 
 //token
 const Token = require("../../models/token.js");
-////////
 
 //Generate a random token using crypto API
 const passwordReset = async (email) => {
@@ -93,4 +82,3 @@ module.exports = {
   resetPassword,
   User
 };
-////////

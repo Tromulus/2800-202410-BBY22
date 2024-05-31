@@ -1,15 +1,38 @@
-<%- include("templates/header") %>
-<body>
-    <h1>Order Details</h1>
-    <ul>
-        <% orders.forEach(order => { %>
-            <li>
-                <p>Order Number: <%= order.orderNumber %></p>
-                <p>Address: <%= order.address %></p>
-                <p>Date: <%= order.date.toDateString() %></p>
-                <a href="/tracking/<%= order.orderNumber %>">Track Order</a>
-            </li>
-        <% }); %>
-    </ul>
-</body>
-<%- include("templates/footer") %>
+<link rel="stylesheet" type="text/css" href="/css/style_order.css">
+<%- include('templates/header') %>
+<h1>Order Details: </h1>
+<!-- since cart is the schema under session, if there is no session, mean no cart information, this page will be broken, 
+  so I add the if statement to prevent that issue, setting a alert message for user. -->
+<% if (errorMessage) { %>
+  <div class="alert alert-danger">
+    <%= errorMessage %>
+  </div>
+<% } else { %>
+<div class="order-container">
+  <% orders.forEach(order => { %>
+    <div class="order-card">
+      <div class="order-header">
+        <span>Order Number: <%= order.orderNumber %></span>
+        <span>Date: <%= order.date.toDateString() %></span>
+        <span class="order-status">PAYED</span>
+        <a href="/tracking/<%= order.orderNumber %>" class="track-order">Track Order</a>
+
+      </div>
+      <div class="order-body">
+        <div class="order-images">
+          <% if (cart && cart.models) { %>
+            <% for (let model in cart.models) { %>
+              <!-- find the picture of each modal -->
+              <img src="/img/robots/<%= cart.models[model].model %>.png" alt="<%= cart.models[model].model %>">
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+      <div class="order-footer">
+        <span class="order-total">Total Price: $<%= (cart.totalPrice + 4.99).toFixed(2) %></span><br>
+      </div>
+    </div>
+  <% }) %>
+</div>
+<% } %>
+<%- include('templates/footer') %>

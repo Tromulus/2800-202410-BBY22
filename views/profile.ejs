@@ -1,101 +1,145 @@
 <%- include("templates/header") %>
-  <div class="bd-example m-0 border-0">
-    <h2>User Profile</h2>
-    <form action="/update/<%= user.email %>" method="post">
-      <!--EMAIL-->
-      <fieldset disabled>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email address</label>
-          <input type="email" name="email" class="form-control" id="emailprofile" aria-describedby="emailHelp"
-            placeholder="email address" style="width: auto" value="<%= user.email %>">
-        </div>
-      </fieldset>
+  <h1>My Profile</h1>
+  <section style="background-color: #eee;">
+    <div id="mainDiv" class="container py-5">
+      <div id="formDiv">
+        <form action="/update/<%= user.email %>" method="post">
+          <div class="col-lg-8">
+            <div class="card mb-2">
+              <div class="card-body">
+                <!-- Email Address -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="email" class="form-label">Email address</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <fieldset disabled>
+                      <div class="mb-3">
+                        <input type="email" name="email" class="form-control" id="emailprofile"
+                          aria-describedby="emailHelp" placeholder="email address" style="width: auto"
+                          value="<%= user.email %>">
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <hr>
+                <!-- Username -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="username" class="form-label">Username</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <fieldset disabled>
+                      <div class="mb-3">
+                        <input type="email" name="username" class="form-control" id="usernameprofile"
+                          aria-describedby="userHelp" placeholder="username" style="width: auto"
+                          value="<%= user.username %>">
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <hr>
+                <!-- Address -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="address" class="form-label">Address</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="mb-3">
+                      <input type="text" name="address" class="form-control" id="address" aria-describedby="addressHelp"
+                        style="width: auto" value="<%= user.address %>">
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <!-- City -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="city" class="form-label">City</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="mb-3">
+                      <input type="text" name="city" class="form-control" id="city" aria-describedby="cityHelp"
+                        style="width: auto" value="<%= user.city %>">
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <!-- Province -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="province" class="form-label">Province</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <fieldset>
+                      <div class="mb-3">
+                        <select name="province" id="province" class="form-select" aria-label="Default select example"
+                          style="width: auto">
+                          <option value="AB">AB</option>
+                          <option value="BC">BC</option>
+                          <option value="MB">MB</option>
+                          <option value="NB">NB</option>
+                          <option value="NL">NL</option>
+                          <option value="NS">NS</option>
+                          <option value="ON">ON</option>
+                          <option value="PE">PE</option>
+                          <option value="QC">QC</option>
+                          <option value="SK">SK</option>
+                          <option value="NT">NT</option>
+                          <option value="NU">NU</option>
+                          <option value="YT">YT</option>
+                        </select>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <hr>
+                <!-- Postal Code -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="postal" class="form-label">Postal Code</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="mb-3">
+                      <input type="text" name="postal" class="form-control" id="postal" aria-describedby="postalHelp"
+                        style="width: auto" value="<%= user.postal %>">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Save button -->
+            <div class="col-sm-3">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
 
-      <!--USERNAME-->
-      <fieldset disabled>
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="email" name="username" class="form-control" id="usernameprofile" aria-describedby="emailHelp"
-            placeholder="username" style="width: auto" value="<%= user.username %>">
-        </div>
-      </fieldset>
+            <!-- Logout button -->
+            <a href="/logout">
+              <button id="logBtn" type="button" class="btn btn-danger">Logout</button>
+            </a>
 
-      <!--PASSWORD-->
-      <!-- <fieldset disabled>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="passwordprofile" aria-describedby="emailHelp"
-            placeholder="password" style="width: auto">
-        </div>
-      </fieldset> -->
+            <div class="row">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="imgDiv">
+        <img id="sideBot" src="/img/HSR-3_speech.png" alt="robotPic">
+      </div>
+    </div>
+    </div>
+  </section>
 
-      <!--ADDRESS-->
-      <fieldset>
-        <div class="mb-3">
-          <label for="address" class="form-label">Address</label>
-          <input type="text" name="address" class="form-control" id="address" aria-describedby="emailHelp" style="width: auto"
-            value="<%= user.address %>">
-          <label for="city" class="form-label">City</label>
-          <input type="text" name="city" class="form-control" id="city" aria-describedby="emailHelp" style="width: auto"
-            value="<%= user.city %>">
-          <label for="province" class="form-label">Province</label>
-          <input type="text" name="province" class="form-control" id="province" aria-describedby="emailHelp" style="width: auto"
-            value="<%= user.province %>">
-          <label for="postal" class="form-label">Postal/Zip Code</label>
-          <input type="text" name="postal" class="form-control" id="postal" aria-describedby="emailHelp" style="width: auto"
-            value="<%= user.postal %>">
-        </div>
-      </fieldset>
+  <script>
+    // Select element by ID
+    const selectElement = document.getElementById('province');
 
-      <!-- NAME-->
-      <!-- <fieldset>
-        <div class="mb-3">
-          <label for="firstname" class="form-label">First Name</label>
-          <input type="password" class="form-control" id="nameprofile" placeholder="first name"
-            style="width: auto">
-            <br>
-          <label for="lastname" class="form-label">Last Name</label>
-          <input type="password" class="form-control" id="nameprofile" placeholder="last name"
-            style="width: auto">
-        </div>
-      </fieldset> -->
+    // Determine the option element with value equal to the selected province
+    const optionElement = selectElement.querySelector("option[value='<%= user.province %>']");
 
-      <!--PHONE NUMBER-->
-      <!-- <div class="mb-3">
-        <label for="phonenumber" class="form-label">Phone Number</label>
-        <input type="password" class="form-control" id="phoneprofile"
-          placeholder="phone number" style="width: auto">
-      </div> -->
-
-      <!--DATE OF BIRTH-->
-      <!-- <fieldset>
-        <div class="mb-3">
-          <label for="dob" class="form-label">Date of Birth</label>
-          <br>
-          <input type="text" name="bday" id="bday" size="2" maxlength="2" placeholder="DD">
-          <input type="month" name="bmonth" id="bmonth" size="2" maxlength="2" placeholder="MM">
-          <input type="text" name="byear" id="byear" size="4" maxlength="4" placeholder="YYYY">
-        </div>
-      </fieldset> -->
-
-      <!--GENDER-->
-      <!-- <fieldset>
-        <div class="mb-3">
-          <label for="gender" class="form-label">Gender</label>
-          <select class="form-select" aria-label="Default select example" style="width: auto">
-            <option selected>--Select one--</option>
-            <option value="1">Male</option>
-            <option value="2">Female</option>
-            <option value="3">Other</option>
-          </select>
-        </div>
-      </fieldset> -->
-
-      <!-- <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div> -->
-      <button type="submit" class="btn btn-primary">Save</button>
-    </form>
-  </div>
+    // If the option element is found, toggle the selected attribute
+    if (optionElement) {
+      optionElement.setAttribute('selected', 'selected');
+    }
+  </script>
   <%- include("templates/footer") %>
