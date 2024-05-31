@@ -21,7 +21,6 @@ router.get('/add-to-cart/:id', sessionValidation, async (req, res) => {
 router.get('/cart', sessionValidation, async (req, res) => {
 
     const cart = new Cart(req.session.cart ? req.session.cart : { items: {} });
-    // const cart = req.session.cart;
     
     if (cart) {
         const cartInstance = new Cart(cart);
@@ -43,7 +42,6 @@ router.get('/cart', sessionValidation, async (req, res) => {
     } else {
         const cartDetails = [];
         res.render('cart', { cart, cartDetails });
-        // res.redirect('/robots');
     }
 });
 

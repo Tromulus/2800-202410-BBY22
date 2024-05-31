@@ -13,20 +13,21 @@
 
                                 <form action="/createUser" method="POST">
 
-                                    <%# Username %>
+                                    <!-- Username -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="username">Username*</label>
                                         <input type="text" id="username" name="username" placeholder="Enter a username"
                                             class="form-control form-control-lg" required />
                                     </div>
 
-                                    <%# Email Address %>
+                                    <!-- Email Address -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="email">Email Address*</label>
                                         <input type="email" id="email" name="email" placeholder="Enter an email address"
                                             class="form-control form-control-lg" required />
                                     </div>
 
+                                    <!-- Password -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="password">Password*</label>
                                         <input type="password" id="password" name="password"
@@ -34,21 +35,21 @@
                                             required />
                                     </div>
 
-                                    <%# Address %>
+                                    <!-- Address -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="address">Address*</label>
                                         <input type="text" id="address" name="address" placeholder="Enter an address"
                                             class="form-control form-control-lg" required />
                                     </div>
 
-                                    <%# City %>
+                                    <!-- City -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="city">City*</label>
                                         <input type="text" id="city" name="city" placeholder="Enter a city"
                                             class="form-control form-control-lg" required />
                                     </div>
 
-                                    <%# Province %>
+                                    <!-- Province -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="province">Province*</label>
                                         <fieldset>
@@ -74,7 +75,7 @@
                                         </fieldset>
                                     </div>
 
-                                    <%# Postal Code %>
+                                    <!-- Postal Code -->
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="postal">Postal Code*</label>
                                         <input type="text" id="postal" name="postal" placeholder="Enter a postal code"
@@ -83,14 +84,14 @@
 
                                     <p>Required *</p>
 
-                                    <%# Sign up button %>
+                                    <!-- Sign up button -->
                                     <div class="d-flex justify-content-center">
                                         <button type="submit" data-mdb-button-init data-mdb-ripple-init
                                             class="btn btn-primary btn-lg">Sign
                                             up</button>
                                     </div>
 
-                                    <%# Login redirect link %>
+                                    <!-- login redirect link -->
                                     <p id="loginLink" class="fw-bold text-center text-muted mt-5 mb-0">Already have an
                                         account?
                                         <a href="/login" class="fw-bold link-danger"><u>Login here</u></a>

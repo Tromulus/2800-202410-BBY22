@@ -7,7 +7,7 @@ const signUpController = async (req, res, next) => {
   try {
     const { username, email, password, address, city, province, postal } = req.body;
 
-    // validates all user input
+    // Validates all user input
     const schema = Joi.object({
       username: Joi.string()
       .alphanum()

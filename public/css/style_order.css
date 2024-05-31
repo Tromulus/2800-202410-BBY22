@@ -5,15 +5,6 @@ body {
     background-color: #f4f4f4;
 } 
 
- /* .order-container {
-    width: 80%;
-    margin: 20px auto;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-} */
-
 .order-card {
     display: flex;
     flex-direction: column;
@@ -43,7 +34,7 @@ body {
     justify-content: flex-start; 
     align-items: center;
     margin: 20px 0;
-    overflow-x: scroll; /* sunwoo added to prevent page overflow */
+    overflow-x: scroll;
 }
 
 .order-images {
@@ -81,15 +72,9 @@ body {
 .order-total {
     font-weight: bold;
     font-size: 1.2em;
-    /* color: green; */
 }
 
 @media (max-width: 440px) {
-    /* .order-container {
-        width: 95%;
-        padding: 10px;
-    } */
-
     .order-card {
         padding: 10px;
     }

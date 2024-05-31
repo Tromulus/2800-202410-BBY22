@@ -8,42 +8,28 @@
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
             </a>
         </div>
-        <!-- Image -->
     </div>
 
     <div class="col-lg-5 col-md-6 mb-4 mb-lg-0 cartRows">
         <!-- Data -->
         <p><strong><%= robot.company %> <%= robot.model %></strong></p>
         <p>Capabilities: <%= robot.capabilities %></p>
-        <!-- Data -->
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0 cartRows">
         <!-- Quantity -->
         <div class="d-flex mb-4 quantityContainer" style="max-width: 300px">
-            <!-- <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary px-3 me-2" style="max-height: 38px;"
-                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                <i class="fas fa-minus">-</i>
-            </button> -->
-
             <div data-mdb-input-init class="form-outline cartForm">
                 <input id="form1" min="0" name="quantity" value="<%= robot.qty %>" class="form-control" />
                 <label class="form-label" for="form1">Quantity</label>
             </div>
-
-            <!-- <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary px-3 ms-2" style="max-height: 38px;"
-                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                <i class="fas fa-plus">+</i>
-            </button> -->
         </div>
-        <!-- Quantity -->
 
         <!-- Price -->
         <p class="text-start text-md-center">
             <strong><%= robot.rate %></strong>
         </p>
-        <!-- Price -->
+
     </div>
 </div>
 <hr class="my-4" />
-<!-- Single item -->

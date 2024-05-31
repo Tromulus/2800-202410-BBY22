@@ -1,7 +1,8 @@
 <link rel="stylesheet" type="text/css" href="/css/style_order.css">
 <%- include('templates/header') %>
 <h1>Order Details: </h1>
-<!-- since cart is the schema under session, if there is no session, mean no cart information, this page will be broken, so i add the if statement to prevent that issue, setting a alert message for user. -->
+<!-- since cart is the schema under session, if there is no session, mean no cart information, this page will be broken, 
+  so I add the if statement to prevent that issue, setting a alert message for user. -->
 <% if (errorMessage) { %>
   <div class="alert alert-danger">
     <%= errorMessage %>
