@@ -11,7 +11,7 @@ Our app offers an AI robot rental and delivery service with high efficiency and 
 - Other Technology: BootStrap, Google Map API, Chatbot API, Gmail SMTP, Stripe
 
 ## Listing of File Contents of folder
-
+```
 │   .gitignore
 │   about.html
 │   index.js
@@ -129,6 +129,7 @@ Our app offers an AI robot rental and delivery service with high efficiency and 
             companycard.ejs
             footer.ejs
             header.ejs
+```
 
 ## How to install or run the project
 ##### 1. What does developer need to install?
